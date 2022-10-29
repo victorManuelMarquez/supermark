@@ -6,4 +6,4 @@ El sistema escogido unánimemente fue el [supermark](docs/Proyecto_SG_Supermark-
 
 ![logo](docs/logo_supermark.avif "Logo para el proyecto")
 
-### Integrantes: [Víctor Manuel Márquez](https://github.com/victorManuelMarquez), [Tapia](https://github.com/LTapia2501)
+### Integrantes: [Víctor Manuel Márquez](https://github.com/victorManuelMarquez), [Lucas Martin Aramayo Tapia](https://github.com/LTapia2501)
