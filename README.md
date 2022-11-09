@@ -6,4 +6,11 @@ El sistema escogido unánimemente fue el [supermark](docs/Proyecto_SG_Supermark-
 
 ![logo](docs/logo_supermark.avif "Logo para el proyecto")
 
-### Integrantes: [Víctor Manuel Márquez](https://github.com/victorManuelMarquez), [Lucas Martin Aramayo Tapia](https://github.com/LTapia2501), [Moya Montero Matias Exequiel](https://github.com/Mmoya123), [Luz Gomez](https://github.com/luzzgomez) 
+## Checkpoint # 1
+
+### Diagrama de clases:
+![Diagrama de clases inicial](docs/diagrama_de_clases_vmm.png "Diagrama de clases v2 de Víctor Manuel Márquez")
+
+Nota: Persona>>Cliente denota que la clase Cliente extiende a la clase Persona, además las funciones y atributos se omiten visualmente en la clase hija.
+
+### Integrantes: [Víctor Manuel Márquez](https://github.com/victorManuelMarquez), [Lucas Martin Aramayo Tapia](https://github.com/LTapia2501), [Moya Montero Matias Exequiel](https://github.com/Mmoya123), [Luz Milagros Gomez Rivera](https://github.com/luzzgomez) 
