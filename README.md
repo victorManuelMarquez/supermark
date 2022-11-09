@@ -13,4 +13,13 @@ El sistema escogido unánimemente fue el [supermark](docs/Proyecto_SG_Supermark-
 
 Nota: Persona>>Cliente denota que la clase Cliente extiende a la clase Persona, además las funciones y atributos se omiten visualmente en la clase hija.
 
+## Checkpoint # 2
+
+### Diagrama Entidad Relación:
+![Diagrama Entidad Relación inicial](docs/DER-supermark.png "Diagramas Entidad Relación inicial de Víctor Manuel Márquez")
+
+Diagrama realizado con [DBeaver](https://dbeaver.io/).
+
+Nota: Las líneas no surgen de los campos verdaderos, es solo distribución visual.
+
 ### Integrantes: [Víctor Manuel Márquez](https://github.com/victorManuelMarquez), [Lucas Martin Aramayo Tapia](https://github.com/LTapia2501), [Moya Montero Matias Exequiel](https://github.com/Mmoya123), [Luz Milagros Gomez Rivera](https://github.com/luzzgomez) 
