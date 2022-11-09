@@ -22,6 +22,6 @@ Diagrama realizado con [DBeaver](https://dbeaver.io/).
 
 Nota: Las líneas no surgen de los campos verdaderos, es solo distribución visual.
 
-[Script SQL (SQLite3)](scr/supermark.sql) y [base de datos SQLite3](src/supermark.db).
+[Script SQL (SQLite3)](src/supermark.sql) y [base de datos SQLite3](src/supermark.db).
 
 ### Integrantes: [Víctor Manuel Márquez](https://github.com/victorManuelMarquez), [Lucas Martin Aramayo Tapia](https://github.com/LTapia2501), [Moya Montero Matias Exequiel](https://github.com/Mmoya123), [Luz Milagros Gomez Rivera](https://github.com/luzzgomez) 
