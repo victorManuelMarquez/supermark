@@ -20,7 +20,7 @@ Nota: Persona>>Cliente denota que la clase Cliente extiende a la clase Persona, 
 
 Diagrama realizado con [DBeaver](https://dbeaver.io/).
 
-Nota: Las líneas no surgen de los campos verdaderos, es solo distribución visual.
+Nota: Las tablas sin relaciones, son tablas temporales o que solo existen en una consulta.
 
 [Script SQL (SQLite3)](src/supermark.sql) y [base de datos SQLite3](src/supermark.db).
 
