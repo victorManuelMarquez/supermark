@@ -24,4 +24,8 @@ Nota: Las tablas sin relaciones, son tablas temporales o que solo existen en una
 
 [Script SQL (SQLite3)](src/supermark.sql) y [base de datos SQLite3](src/supermark.db).
 
+### Interfaz gráfica de usuario:
+
+En desarrollo con la herramienta de maquetado [Visual TK, Visual Python Tkinter GUI creator](https://visualtk.com/)
+
 ### Integrantes: [Víctor Manuel Márquez](https://github.com/victorManuelMarquez), [Lucas Martin Aramayo Tapia](https://github.com/LTapia2501), [Moya Montero Matias Exequiel](https://github.com/Mmoya123), [Luz Milagros Gomez Rivera](https://github.com/luzzgomez) 
