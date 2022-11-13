@@ -26,6 +26,10 @@ Nota: Las tablas sin relaciones, son tablas temporales o que solo existen en una
 
 ### Interfaz gráfica de usuario:
 
-En desarrollo con la herramienta de maquetado [Visual TK, Visual Python Tkinter GUI creator](https://visualtk.com/)
+## Ventana Principal
+
+![Ventana principal del sistema Supermark](docs/main-gui-supermark-01.png "Captura del diseño preliminar")
+
+Interfaz gráfica realizada con [Visual TK, Visual Python Tkinter GUI creator](https://visualtk.com/).
 
 ### Integrantes: [Víctor Manuel Márquez](https://github.com/victorManuelMarquez), [Lucas Martin Aramayo Tapia](https://github.com/LTapia2501), [Moya Montero Matias Exequiel](https://github.com/Mmoya123), [Luz Milagros Gomez Rivera](https://github.com/luzzgomez) 
