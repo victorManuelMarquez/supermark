@@ -30,7 +30,7 @@ Nota: Las tablas sin relaciones, son tablas temporales o que solo existen en una
 
 ![Ventana principal del sistema Supermark](docs/main-gui-supermark-01.png "Captura del diseño preliminar (Linux)")
 
-Nota: la apriencia de algunos de los componentes puede variar según el sistema operativo, en este caso son del S.O Linux Debian 11 "Bullseye".
+Nota: la apariencia de algunos de los componentes puede variar según el sistema operativo, en este caso son del S.O Linux Debian 11 "Bullseye".
 
 Interfaz gráfica realizada con [Visual TK, Visual Python Tkinter GUI creator](https://visualtk.com/).
 
