@@ -24,9 +24,9 @@ Nota: Las tablas sin relaciones, son tablas temporales o que solo existen en una
 
 [Script SQL (SQLite3)](src/supermark.sql) y [base de datos SQLite3](src/supermark.db).
 
-## Interfaz gráfica de usuario:
+# Interfaz gráfica de usuario:
 
-## Ventana Principal
+### Ventana Principal:
 
 ![Ventana principal del sistema Supermark](docs/main-gui-supermark-01.png "Captura del diseño preliminar")
 
