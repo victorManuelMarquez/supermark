@@ -15,6 +15,8 @@ Nota: Persona>>Cliente denota que la clase Cliente extiende a la clase Persona, 
 
 ## Checkpoint # 2
 
+Sistema de Gestión de Base de Datos (DBMS) escogido para trabajar: [SQLite3](https://www.sqlite.org/index.html).
+
 ### Diagrama Entidad Relación:
 ![Diagrama Entidad Relación inicial](docs/DER-supermark.png "Diagramas Entidad Relación inicial de Víctor Manuel Márquez")
 
