@@ -60,6 +60,8 @@ CREATE TABLE IF NOT EXISTS ventas(
 
 CREATE UNIQUE INDEX IF NOT EXISTS PK_TICKET ON tickets(id, id_consumidor, id_facilitador);
 
+CREATE UNIQUE INDEX IF NOT EXISTS INDX_DNI ON personas(dni);
+
 CREATE INDEX IF NOT EXISTS FECHA_DE_COMPRA ON tickets(fecha);
 
 -- vistas
@@ -70,7 +72,7 @@ CREATE VIEW articulos_detalles AS
     SELECT
         productos.id as 'ID',
         (categorias.nombre || " " || productos.descripcion) AS 'Detalles', -- En Mysql la sintáxis es diferente!!!
-        articulos.precio as 'Precio',
+        articulos.precio as 'Precio unitario',
         articulos.stock as 'Stock',
         productos.activo as 'Activo'
     FROM (
