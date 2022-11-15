@@ -9,7 +9,7 @@ El sistema escogido unánimemente fue el [supermark](docs/Proyecto_SG_Supermark-
 ## Checkpoint # 1
 
 ### Diagrama de clases:
-![Diagrama de clases inicial](docs/diagrama_de_clases_vmm.png "Diagrama de clases v2 de Víctor Manuel Márquez")
+![Diagrama de clases](docs/diagrama_de_clases_vmm.png "Diagrama de clases v2 de Víctor Manuel Márquez")
 
 Nota: Persona>>Cliente denota que la clase Cliente extiende a la clase Persona, además las funciones y atributos se omiten visualmente en la clase hija.
 
@@ -18,7 +18,7 @@ Nota: Persona>>Cliente denota que la clase Cliente extiende a la clase Persona, 
 Sistema de Gestión de Base de Datos (DBMS) escogido para trabajar: [SQLite3](https://www.sqlite.org/index.html).
 
 ### Diagrama Entidad Relación:
-![Diagrama Entidad Relación inicial](docs/DER-supermark.png "Diagramas Entidad Relación inicial de Víctor Manuel Márquez")
+![Diagrama Entidad Relación](docs/DER-supermark.png "Diagramas Entidad Relación de Víctor Manuel Márquez")
 
 Diagrama realizado con [DBeaver](https://dbeaver.io/).
 
