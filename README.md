@@ -24,7 +24,7 @@ Diagrama realizado con [DBeaver](https://dbeaver.io/).
 
 Nota: Las tablas sin relaciones, son tablas temporales o que solo existen en una consulta.
 
-[Script SQL (SQLite3)](src/supermark.sql) y [base de datos SQLite3](src/supermark.db).
+[Script SQL (SQLite3)](src/supermark.sql) y [base de datos SQLite3](src/supermark.db) (Estructura); [base de datos SQLite3 cargada](src/supermark-data.db) (Estructura y datos precargados).
 
 # Interfaz gráfica de usuario:
 
