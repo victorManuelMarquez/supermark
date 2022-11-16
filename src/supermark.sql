@@ -19,17 +19,11 @@ CREATE TABLE IF NOT EXISTS productos(
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	id_categoria INTEGER NOT NULL,
 	descripcion TEXT(140) NOT NULL,
+    precio REAL NOT NULL,
+    stock INTEGER(4) NOT NULL,
 	activo INTEGER NOT NULL DEFAULT 1,
 	CONSTRAINT FK_PROD_CAT FOREIGN KEY (id_categoria) 
         REFERENCES categorias(id) ON UPDATE CASCADE ON DELETE RESTRICT
-);
-
-CREATE TABLE IF NOT EXISTS articulos(
-	id_producto INTEGER PRIMARY KEY,
-	precio REAL NOT NULL,
-	stock INTEGER NOT NULL,
-	CONSTRAINT FK_ART_PROD FOREIGN KEY (id_producto)
-        REFERENCES productos(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS tickets(
@@ -47,13 +41,13 @@ CREATE TABLE IF NOT EXISTS tickets(
 CREATE TABLE IF NOT EXISTS ventas(
     id INTEGER PRIMARY KEY NOT NULL,
     id_ticket INTEGER NOT NULL,
-    id_articulo INTEGER NOT NULL,
+    id_producto INTEGER NOT NULL,
     cantidad INTEGER NOT NULL,
     monto REAL NOT NULL,
     CONSTRAINT FK_TICKET_ARTS FOREIGN KEY (id_ticket)
         REFERENCES tickets(id),
-    CONSTRAINT FK_COMPRA_ART FOREIGN KEY (id_articulo)
-        REFERENCES articulos(id_producto) ON UPDATE CASCADE
+    CONSTRAINT FK_COMPRA_PROD FOREIGN KEY (id_producto)
+        REFERENCES productos(id) ON UPDATE CASCADE
 );
 
 -- Índices
@@ -66,25 +60,26 @@ CREATE INDEX IF NOT EXISTS FECHA_DE_COMPRA ON tickets(fecha);
 
 -- vistas
 
-DROP VIEW IF EXISTS articulos_detalles;
+DROP VIEW IF EXISTS productos_detalles;
 
-CREATE VIEW articulos_detalles AS
+CREATE VIEW productos_detalles AS
     SELECT
         productos.id as 'ID',
         (categorias.nombre || " " || productos.descripcion) AS 'Detalles', -- En Mysql la sintáxis es diferente!!!
-        articulos.precio as 'Precio unitario',
-        articulos.stock as 'Stock',
+        productos.precio as 'Precio unitario',
+        productos.stock as 'Stock',
         productos.activo as 'Activo'
-    FROM (
-        (articulos INNER JOIN productos ON articulos.id_producto = productos.id) 
-            INNER JOIN categorias ON categorias.id = productos.id_categoria
-    );
+    FROM (productos INNER JOIN categorias ON categorias.id = productos.id_categoria);
 
-DROP VIEW IF EXISTS articulos_disponibles;
+DROP VIEW IF EXISTS productos_disponibles;
 
-CREATE VIEW articulos_disponibles AS
-    SELECT * FROM articulos_detalles 
-        WHERE articulos_detalles.activo = TRUE AND articulos_detalles.stock > 0;
+CREATE VIEW productos_disponibles AS
+    SELECT
+        productos_detalles.id,
+        productos_detalles.detalles,
+        productos_detalles.`Precio unitario`
+    FROM productos_detalles 
+        WHERE productos_detalles.activo = TRUE AND productos_detalles.stock > 0;
 
 DROP VIEW IF EXISTS ventas_detalles;
 
@@ -97,12 +92,12 @@ CREATE VIEW ventas_detalles AS
             FROM personas WHERE tickets.id_facilitador = personas.id
         ) AS 'Vendedor',
         tickets.fecha AS 'Fecha de compra',
-        articulos_detalles.detalles as 'Producto',
+        productos_detalles.detalles as 'Producto',
         ventas.cantidad AS 'Cantidad',
         ventas.monto AS 'Precio Final',
         tickets.habilitado AS 'Válido'
     FROM (
-        (articulos_detalles INNER JOIN ventas ON ventas.id_articulo = articulos_detalles.id) 
+        (productos_detalles INNER JOIN ventas ON ventas.id_producto = productos_detalles.id) 
             INNER JOIN tickets ON tickets.id = ventas.id_ticket
     ) ORDER BY tickets.fecha DESC;
 
