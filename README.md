@@ -22,10 +22,6 @@ Sistema de Gestión de Base de Datos (DBMS) escogido para trabajar: [SQLite3](ht
 
 Diagrama realizado con [DBeaver](https://dbeaver.io/).
 
-Nota: Las tablas sin relaciones, son tablas temporales o que solo existen en una consulta.
-
-[Script SQL (SQLite3)](src/supermark.sql) y [base de datos SQLite3](src/supermark.db) (Estructura); [base de datos SQLite3 cargada](src/supermark-data.db) (Estructura y datos precargados).
-
 # Interfaz gráfica de usuario:
 
 ### Ventana Principal:
@@ -35,5 +31,10 @@ Nota: Las tablas sin relaciones, son tablas temporales o que solo existen en una
 Nota: la apariencia de algunos de los componentes puede variar según el sistema operativo, en este caso son del S.O Linux Debian 11 "Bullseye".
 
 Interfaz gráfica realizada con [Visual TK, Visual Python Tkinter GUI creator](https://visualtk.com/).
+
+## Notas
+- Las tablas sin relaciones, son tablas temporales (Vistas) o que solo existen en una consulta.
+- [Archivos de Respaldo](src/backup).
+- [Script SQL (SQLite3)](src/supermark.sql) y [base de datos SQLite3](src/backup/supermark.db) (Estructura); [base de datos SQLite3 cargada](src/supermark-data.db) (Estructura y datos precargados).
 
 ### Integrantes: [Víctor Manuel Márquez](https://github.com/victorManuelMarquez), [Lucas Martin Aramayo Tapia](https://github.com/LTapia2501), [Moya Montero Matias Exequiel](https://github.com/Mmoya123), [Luz Milagros Gomez Rivera](https://github.com/luzzgomez) 
