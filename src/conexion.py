@@ -10,7 +10,8 @@ class Conexion():
         self.__cursor.execute(consulta)
         if 'INSERT' in consulta or 'UPDATE' in consulta or 'DELETE' in consulta:
             self.__conexion.commit()
-    
+        return self.__cursor.rowcount
+
     def datos(self):
         return self.__cursor.fetchall()
 
