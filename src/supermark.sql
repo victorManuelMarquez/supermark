@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS personas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     dni TEXT(10) NOT NULL,
     nombre_completo TEXT(140) NOT NULL,
+    usuario TEXT(30) NOT NULL,
+    clave TEXT(8) NOT NULL,
     cliente INTEGER(1) NOT NULL DEFAULT 1, -- cliente como valor por defecto
     activo INTEGER NOT NULL DEFAULT 1 -- actúa como booleano
 );
@@ -56,9 +58,19 @@ CREATE UNIQUE INDEX IF NOT EXISTS PK_TICKET ON tickets(id, id_consumidor, id_fac
 
 CREATE UNIQUE INDEX IF NOT EXISTS INDX_DNI ON personas(dni);
 
+CREATE UNIQUE INDEX IF NOT EXISTS INDX_USUARIO ON personas(usuario);
+
 CREATE INDEX IF NOT EXISTS FECHA_DE_COMPRA ON tickets(fecha);
 
 -- vistas
+
+DROP VIEW IF EXISTS usuarios;
+
+CREATE VIEW usuarios AS
+    SELECT 
+        usuario, 
+        clave
+    FROM personas ORDER BY usuario DESC;
 
 DROP VIEW IF EXISTS productos_detalles;
 

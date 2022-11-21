@@ -1,5 +1,5 @@
 ### omitir ###
+.vscode/
 __pycache__/
 build/
 *.spec
-*.pyc
