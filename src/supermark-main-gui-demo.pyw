@@ -147,7 +147,8 @@ class App:
     # eventos & acciones
 
     def salir(self):
-        quit()
+        self.root.destroy()
+        quit() # finaliza la consola
 
 root = tk.Tk()
 app = App(root)
