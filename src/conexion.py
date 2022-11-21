@@ -2,8 +2,8 @@ import sqlite3 as sql
 
 class Conexion():
 
-    def __init__(self, bd):
-        self.__conexion = sql.connect(bd, detect_types=sql.PARSE_DECLTYPES | sql.PARSE_COLNAMES)
+    def __init__(self, db_path):
+        self.__conexion = sql.connect(db_path, detect_types=sql.PARSE_DECLTYPES | sql.PARSE_COLNAMES)
         self.__cursor = self.__conexion.cursor()
 
     def ejecutar(self, consulta):
