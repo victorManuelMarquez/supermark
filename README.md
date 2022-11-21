@@ -28,11 +28,11 @@ Diagrama realizado con [DBeaver](https://dbeaver.io/).
 
 ### Ventana Principal:
 
-![Ventana principal del sistema Supermark](docs/main-gui-supermark-01.png "Captura del diseño preliminar (Linux)")
+![Ventana Principal-v2](docs/main-gui-supermark-02.png)
 
-Nota: la apariencia de algunos de los componentes puede variar según el sistema operativo, en este caso son del S.O Linux Debian 11 "Bullseye".
+### Barra de Menús:
 
-Interfaz gráfica realizada con [Visual TK, Visual Python Tkinter GUI creator](https://visualtk.com/).
+![¡Nueva Apariencia!](docs/supermark-menubar-demo-screen-capture.gif "Demostración de las opciones disponibles por ahora.")
 
 ## Notas:
 
