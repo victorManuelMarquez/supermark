@@ -17,7 +17,7 @@ class App:
         self.moduloUsuario(tk.Frame())
         self.moduloProductos(tk.Frame())
         self.moduloCarrito(tk.Frame())
-        self.moduloOPeraciones(tk.Frame())
+        self.moduloOperaciones(tk.Frame())
 
     # getters
     @property
@@ -137,7 +137,7 @@ class App:
 
         contenedor.pack(side='left', fill=tk.BOTH, expand=True)
 
-    def moduloOPeraciones(self, contenedor):
+    def moduloOperaciones(self, contenedor):
         tk.Button(contenedor, text="Comprar", borderwidth='1px', font=self.fuente, bg="#f3e244").pack(fill=tk.X, pady=10)
 
         tk.Button(contenedor, text="Cancelar",borderwidth='1px', font=self.fuente, bg="#f34444").pack(fill=tk.X, pady=10)
