@@ -98,12 +98,14 @@ class App:
         campoClave.pack(side='left')
         ToolTip(campoClave, msg="Complete los campos y presione 'Enter' para iniciar la sesión.")
 
-        tk.Checkbutton(contenedor, text="¿Es cliente?", font=self.fuente, variable=self.esCliente, onvalue=True, offvalue=False).pack(side='left')
+        chk = tk.Checkbutton(contenedor, text="¿Es cliente?", font=self.fuente, variable=self.esCliente, onvalue=True, offvalue=False)
+        chk.pack(side='left')
+        ToolTip(chk, msg="¿Va a logearse como cliente?")
 
         contenedor.pack()
 
     def moduloProductos(self, contenedor):
-        entryProp = {'justify':'left', 'bg':'#ffffff', 'font':self.fuente}
+        propiedades = {'justify':'left', 'bg':'#ffffff', 'font':self.fuente, 'state':"disabled"}
 
         lf = tk.LabelFrame(contenedor, text="Productos:")
 
@@ -111,14 +113,14 @@ class App:
 
         tk.Label(frame, text="Buscar:", font=self.fuente).pack(side='left', ipadx=6)
 
-        campoBuscar = tk.Entry(frame, width=50, **entryProp)
+        campoBuscar = tk.Entry(frame, width=50, **propiedades)
         campoBuscar.pack(side='left', fill=tk.X, padx=10)
 
         frame.pack()
 
         ToolTip(campoBuscar, msg="Ingrese la marca o descripción del producto.")
 
-        tk.Listbox(lf, **entryProp).pack(side='left', fill=tk.BOTH, expand=True, padx=10, pady=10)
+        tk.Listbox(lf, **propiedades).pack(side='left', fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         lf.pack(fill=tk.BOTH, expand=True, padx=6)
 
@@ -129,9 +131,9 @@ class App:
 
         frame = tk.Frame(lf)
 
-        tk.Button(frame, text="Vaciar\ncarrito", borderwidth='1px', font=self.fuente, bg="#bfbfbf").pack(side='left', anchor=tk.N)
+        tk.Button(frame, text="Vaciar\ncarrito", state='disabled', borderwidth='1px', font=self.fuente, bg="#bfbfbf").pack(side='left', anchor=tk.N)
 
-        tk.Listbox(frame, bg="#ffffff").pack(side='left', fill=tk.BOTH, expand=True, padx=6, pady=6)
+        tk.Listbox(frame, state='disabled', bg="#ffffff").pack(side='left', fill=tk.BOTH, expand=True, padx=6, pady=6)
 
         frame.pack(fill=tk.BOTH, expand=True)
 
@@ -140,9 +142,9 @@ class App:
         contenedor.pack(side='left', fill=tk.BOTH, expand=True)
 
     def moduloOperaciones(self, contenedor):
-        tk.Button(contenedor, text="Comprar", borderwidth='1px', font=self.fuente, bg="#f3e244").pack(fill=tk.X, pady=10)
+        tk.Button(contenedor, text="Comprar", state='disabled', borderwidth='1px', font=self.fuente, bg="#f3e244").pack(fill=tk.X, pady=10)
 
-        tk.Button(contenedor, text="Cancelar",borderwidth='1px', font=self.fuente, bg="#f34444").pack(fill=tk.X, pady=10)
+        tk.Button(contenedor, text="Cancelar", state='disabled', borderwidth='1px', font=self.fuente, bg="#f34444").pack(fill=tk.X, pady=10)
 
         contenedor.pack(side='left', fill=tk.Y, padx=6, pady=10)
     
