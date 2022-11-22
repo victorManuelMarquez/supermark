@@ -55,7 +55,7 @@ class App:
         menu_archivo.add_command(label="Salir", command=self.salir)
 
         menubar.add_cascade(label="Archivo", menu=menu_archivo)
-    
+
     def menuCliente(self, menubar):
         submenu = Menu(menubar)
         submenu.add_command(label="Nuevo")
