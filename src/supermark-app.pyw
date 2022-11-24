@@ -3,7 +3,7 @@ from tkinter import font
 from tkinter import Menu
 from tkinter import BooleanVar
 from tktooltip import ToolTip
-from tkinter import messagebox
+from tkinter import messagebox as dialog
 
 # aplicación principal
 class App:
@@ -13,6 +13,7 @@ class App:
         self.__root = root
         self.__fuente = font.Font(name='Verdana', size=12)
         self.__esCliente = BooleanVar(value=True)
+        self.__componentes = {}
         self.root.title(titulo)
         self.menuBar(self.root)
         self.preferredSize(720, 480)
@@ -33,6 +34,14 @@ class App:
     @property
     def fuente(self):
         return self.__fuente
+    
+    @property
+    def campoUsuario(self):
+        return self.__campoUsuario
+
+    @property
+    def componentes(self):
+        return self.__componentes
 
     # setters
     def preferredSize(self, w, h):
@@ -88,14 +97,16 @@ class App:
 
         tk.Label(contenedor, text="Usuario:", font=self.fuente).pack(side='left', **packLabelProp)
 
-        campoUsuario = tk.Entry(contenedor, **entryProp)
-        campoUsuario.pack(side='left', fill=tk.X, expand=True)
-        ToolTip(campoUsuario, msg="Complete los campos y presione 'Enter' para iniciar la sesión.")
+        self.__campoUsuario = tk.Entry(contenedor, **entryProp)
+        self.campoUsuario.pack(side='left', fill=tk.X, expand=True)
+        self.campoUsuario.bind('<Key>', self.__tipeando_nombre_usuario)
+        ToolTip(self.campoUsuario, msg="Complete los campos y presione 'Enter' para iniciar la sesión.")
 
         tk.Label(contenedor, text="Contraseña:", font=self.fuente).pack(side='left', **packLabelProp)
 
         campoClave = tk.Entry(contenedor, show="*", width=12, **entryProp)
         campoClave.pack(side='left')
+        campoClave.bind('<Key>', self.__tipeando_clave_usuario)
         ToolTip(campoClave, msg="Complete los campos y presione 'Enter' para iniciar la sesión.")
 
         chk = tk.Checkbutton(contenedor, text="¿Es cliente?", font=self.fuente, variable=self.esCliente, onvalue=True, offvalue=False)
@@ -120,20 +131,27 @@ class App:
 
         ToolTip(campoBuscar, msg="Ingrese la marca o descripción del producto.")
 
-        tk.Listbox(lf, **propiedades).pack(side='left', fill=tk.BOTH, expand=True, padx=10, pady=10)
+        lista = tk.Listbox(lf, **propiedades)
+        lista.pack(side='left', fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         lf.pack(fill=tk.BOTH, expand=True, padx=6)
 
         contenedor.pack(fill=tk.BOTH, expand=True)
+
+        # a eventos de sesion
+        self.componentes['buscar'] = campoBuscar
+        self.componentes['productos'] = lista
 
     def moduloCarrito(self, contenedor):
         lf = tk.LabelFrame(contenedor, text="Carrito:")
 
         frame = tk.Frame(lf)
 
-        tk.Button(frame, text="Vaciar\ncarrito", state='disabled', borderwidth='1px', font=self.fuente, bg="#bfbfbf").pack(side='left', anchor=tk.N)
+        btnVaciarCarrito = tk.Button(frame, text="Vaciar\ncarrito", state='disabled', borderwidth='1px', font=self.fuente, bg="#bfbfbf")
+        btnVaciarCarrito.pack(side='left', anchor=tk.N)
 
-        tk.Listbox(frame, state='disabled', bg="#ffffff").pack(side='left', fill=tk.BOTH, expand=True, padx=6, pady=6)
+        lista = tk.Listbox(frame, state='disabled', bg="#ffffff")
+        lista.pack(side='left', fill=tk.BOTH, expand=True, padx=6, pady=6)
 
         frame.pack(fill=tk.BOTH, expand=True)
 
@@ -141,14 +159,32 @@ class App:
 
         contenedor.pack(side='left', fill=tk.BOTH, expand=True)
 
-    def moduloOperaciones(self, contenedor):
-        tk.Button(contenedor, text="Comprar", state='disabled', borderwidth='1px', font=self.fuente, bg="#f3e244").pack(fill=tk.X, pady=10)
+        # a eventos de sesion
+        self.componentes['carrito'] = lista
 
-        tk.Button(contenedor, text="Cancelar", state='disabled', borderwidth='1px', font=self.fuente, bg="#f34444").pack(fill=tk.X, pady=10)
+    def moduloOperaciones(self, contenedor):
+        btnComprar = tk.Button(contenedor, text="Comprar", state='disabled', borderwidth='1px', font=self.fuente, bg="#f3e244")
+        btnComprar.pack(fill=tk.X, pady=10)
+
+        btnCancelar = tk.Button(contenedor, text="Cancelar", state='disabled', borderwidth='1px', font=self.fuente, bg="#f34444")
+        btnCancelar.pack(fill=tk.X, pady=10)
 
         contenedor.pack(side='left', fill=tk.Y, padx=6, pady=10)
     
     # eventos & acciones
+    def __tipeando_nombre_usuario(self, valor):
+        print(valor)
+        if len(self.__campoUsuario.get()) > 30:
+            dialog.showinfo(message="No debe superar los 30 caracteres.", title="Nombre muy largo")
+    
+    def __tipeando_clave_usuario(self, valor):
+        print(valor)
+        if len(self.__campoUsuario.get()) > 30:
+            dialog.showinfo(message="No debe superar los 8 caracteres.", title="Contraseña muy larga")
+
+    def __activar_componentes(self):
+        for componente in self.componentes.values():
+            componente.config(state='normal')
 
     def salir(self):
         self.root.destroy()
