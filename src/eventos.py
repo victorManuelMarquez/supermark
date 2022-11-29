@@ -1,4 +1,5 @@
 import dialogo
+import conexion as bd
 
 
 def nuevoCliente(root):
@@ -35,6 +36,16 @@ def editarProducto(root):
 
 def borrarProducto(root):
     dialogo.Borrarproducto(root)
+
+
+def iniciarSesion(key, campoUsuario, campoClave):
+    nombre = campoUsuario.get()
+    clave = campoClave.get()
+    res = bd.ejecutar('SELECT COUNT(*) FROM usuarios WHERE nombre = ? AND clave = ?', (nombre, clave))
+    if res > 0:
+        campoUsuario.delete(0, 'end')
+        campoClave.delete(0, 'end')
+
 
 def salir(root):
     root.destroy()

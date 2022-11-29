@@ -61,6 +61,9 @@ def moduloUsuario(master):
 
     master.pack()
 
+    campoUsuario.bind('<Return>', lambda key :evt.iniciarSesion(key, campoUsuario, campoClave))
+    campoClave.bind('<Return>', lambda key :evt.iniciarSesion(key, campoUsuario, campoClave))
+
 
 def moduloProducto(master):
     lf = LabelFrame(master, text="Productos:")
