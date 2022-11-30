@@ -1,15 +1,18 @@
+import os
 import sqlite3 as sql
 
+# devuelve la ruta absoluta a la base de datos (necesario para operar localmente)
+def ruta_absoluta(bd_path):
+    return os.path.join(os.path.dirname(__file__), bd_path)
+
 class Conexion():
-    def __init__(self, bd='supermark.db'):
+    def __init__(self, bd=ruta_absoluta('supermark.db')):
         self.__sqlconnection = sql.connect(bd)
         self.__cursor = self.__sqlconnection.cursor()
     
 
-    def ejecutar(self, consulta, argumentos, autocommit=True):
-        self.__sqlconnection.executemany(consulta, argumentos)
-        if autocommit:
-            self.__sqlconnection.commit()
+    def ejecutar(self, consulta, parametros):
+        self.__sqlconnection.executemany(consulta, parametros)
         return self.__cursor.rowcount
 
 
@@ -23,3 +26,7 @@ class Conexion():
 
     def cerrar(self):
         self.__sqlconnection.close()
+
+
+class Conexionerror(sql.Error):
+    pass

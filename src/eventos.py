@@ -1,5 +1,6 @@
 import dialogo
 import conexion as bd
+from tkinter import messagebox as mb
 
 
 def nuevoCliente(root):
@@ -41,10 +42,19 @@ def borrarProducto(root):
 def iniciarSesion(key, campoUsuario, campoClave):
     nombre = campoUsuario.get()
     clave = campoClave.get()
-    res = bd.ejecutar('SELECT COUNT(*) FROM usuarios WHERE nombre = ? AND clave = ?', (nombre, clave))
-    if res > 0:
-        campoUsuario.delete(0, 'end')
-        campoClave.delete(0, 'end')
+    try:
+        conexion = bd.Conexion()
+        res = conexion.ejecutar('SELECT * FROM usuarios WHERE usuario = ? AND clave = ?', [(nombre, clave)])
+        if res > 0:
+            campoUsuario.delete(0, 'end')
+            campoClave.delete(0, 'end')
+        else:
+            mb.showerror(title="No encontrado", message=f"El usuario `{nombre}` no existe.")
+    except bd.Conexionerror:
+        mb.showerror(title="Error al conectar", message="Falló la conexión con la base de datos.")
+    finally:
+        if conexion:
+            conexion.cerrar()
 
 
 def salir(root):
