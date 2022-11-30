@@ -1,5 +1,5 @@
 import componentes as cmp
-from tkinter import Tk, Frame, font
+from tkinter import Tk, Frame, font, BooleanVar
 
 
 class App():
@@ -13,11 +13,16 @@ class App():
         # Personalización
         self.root.title(titulo)
         self.preferredSize(720, 522)
+
+        # Estáticos
+        self.cliente = BooleanVar(value=True)
+        self.nextCampo = None
+
         cmp.menuBar(self.root)
-        cmp.moduloUsuario(Frame())
-        cmp.moduloProducto(Frame())
-        cmp.moduloCarrito(Frame())
-        cmp.moduloOperaciones(Frame())
+        cmp.moduloUsuario(self)
+        cmp.moduloProducto(self)
+        cmp.moduloCarrito(self)
+        cmp.moduloOperaciones(self)
 
 
     @property

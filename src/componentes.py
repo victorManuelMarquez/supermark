@@ -1,7 +1,6 @@
 import eventos as evt
 from tkinter import Menu, Label, Entry, Checkbutton, LabelFrame, Frame, Listbox, Button
 
-
 def menuArchivo(root, barra):
     file = Menu(barra)
     file.add_command(label="Salir", command=lambda:evt.salir(root))
@@ -41,7 +40,8 @@ def menuBar(root):
     root.config(menu=barra)
 
 
-def moduloUsuario(master):
+def moduloUsuario(app):
+    master = Frame()
     lblPackProps = {'side':'left','ipadx':10, 'ipady':10, 'fill':'x'}
     Label(master, text="Usuario:").pack(**lblPackProps)
 
@@ -56,16 +56,17 @@ def moduloUsuario(master):
     campoClave = Entry(master, show='*', **entryProp)
     campoClave.pack(**entryPackProp)
 
-    check = Checkbutton(master, text='¿Eres cliente?', onvalue=True, offvalue=False)
+    check = Checkbutton(master, text='¿Eres cliente?', variable=app.cliente, onvalue=True, offvalue=False)
     check.pack(side='left')
 
     master.pack()
 
-    campoUsuario.bind('<Return>', lambda key :evt.iniciarSesion(key, campoUsuario, campoClave))
-    campoClave.bind('<Return>', lambda key :evt.iniciarSesion(key, campoUsuario, campoClave))
+    campoUsuario.bind('<Return>', lambda key :evt.iniciarSesion(key, campoUsuario, campoClave, app.nextCampo))
+    campoClave.bind('<Return>', lambda key :evt.iniciarSesion(key, campoUsuario, campoClave, app.nextCampo))
 
 
-def moduloProducto(master):
+def moduloProducto(app):
+    master = Frame()
     lf = LabelFrame(master, text="Productos:")
 
     frame = Frame(lf)
@@ -84,8 +85,11 @@ def moduloProducto(master):
 
     master.pack(fill='both', expand=True)
 
+    app.nextCampo = buscar
 
-def moduloCarrito(master):
+
+def moduloCarrito(app):
+    master = Frame()
     lf = LabelFrame(master, text="Carrito:")
 
     frame = Frame(lf)
@@ -100,7 +104,8 @@ def moduloCarrito(master):
     master.pack(side='left', fill='both', expand=True)
 
 
-def moduloOperaciones(master):
+def moduloOperaciones(app):
+    master = Frame()
     Button(master, text="Comprar", bg='#f3e244').pack(fill='x', expand=True, pady=6)
     Button(master, text="Cancelar", bg='#f34444').pack(fill='x', expand=True, pady=6)
     Button(master, text="Vaciar\nCarrito", bg='#bfbfbf').pack(fill='x', expand=True, pady=6)

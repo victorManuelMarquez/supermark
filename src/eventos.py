@@ -39,7 +39,7 @@ def borrarProducto(root):
     dialogo.Borrarproducto(root)
 
 
-def iniciarSesion(key, campoUsuario, campoClave):
+def iniciarSesion(key, campoUsuario, campoClave, nextCampo):
     nombre = campoUsuario.get()
     clave = campoClave.get()
     try:
@@ -48,6 +48,7 @@ def iniciarSesion(key, campoUsuario, campoClave):
         if res > 0:
             campoUsuario.delete(0, 'end')
             campoClave.delete(0, 'end')
+            nextCampo.focus_set()
         else:
             mb.showerror(title="No encontrado", message=f"El usuario `{nombre}` no existe.")
     except bd.Conexionerror:
