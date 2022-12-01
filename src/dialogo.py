@@ -55,9 +55,12 @@ class Nuevocliente(Dialogo):
                 VALUES('{datos[0]}', '{datos[1]} {datos[2]}', '{datos[1]}', '{datos[2]}', '{True}')''')
                 if ins > 0:
                     mb.showinfo(title="Cliente/Usuario registrado", message="Nuevo cliente registrado: Ok!")
-                conexion.cerrar()
+                    evt.salir(self)
             except bd.Conexionerror:
                 mb.showerror(title="Error al conectar", message="Falló la operación en/con la base de datos.")
+            finally:
+                if conexion:
+                    conexion.cerrar()
         else:
             mb.showerror(title="Campo inválido", message=f"El campo `{invalidado.winfo_name()}` no cumple los requisitos.")
 
@@ -119,14 +122,32 @@ class Borrarcliente(Dialogo):
 
 
 class Nuevacategoria(Dialogo):
-    def __init__(self, root, titulo="Nueva categoría", ancho=320, alto=66):
+    def __init__(self, root, titulo="Nueva categoría", ancho=320, alto=72):
         super().__init__(root, titulo, ancho, alto)
 
         Label(self, text="Nombre:").grid(row=0, column=0, padx=6, pady=6)
-        Entry(self, justify='right', bg='#ffffff').grid(row=0, column=1, columnspan=2, padx=6, pady=6)
+        self.nombre = Entry(self, justify='right', bg='#ffffff')
+        self.nombre.grid(row=0, column=1, columnspan=2, padx=6, pady=6)
 
-        Button(self, text="Registrar").grid(row=1, column=1, padx=6, pady=6)
-        Button(self, text="Cancelar").grid(row=1, column=2, padx=6, pady=6)
+        Button(self, text="Registrar", command=lambda:self.registrarCategoria()).grid(row=1, column=1, padx=6, pady=6)
+        Button(self, text="Cancelar", command=lambda:evt.salir(self)).grid(row=1, column=2, padx=6, pady=6)
+
+
+    def registrarCategoria(self):
+        if evt.validar(self.nombre):
+            try:
+                conexion = bd.Conexion()
+                ins = conexion.ejecutar(f'INSERT INTO categorias(nombre) VALUES("{self.nombre.get()}")')
+                if ins > 0:
+                    mb.showinfo(title="Categoría registrada", message="Nueva categoría: Ok!")
+                    evt.salir(self)
+            except bd.Conexionerror:
+                mb.showerror(title="Error al conectar", message="Falló la operación en/con la base de datos.")
+            finally:
+                if conexion:
+                    conexion.cerrar()
+        else:
+            mb.showerror(title="Campo inválido", message=f"El nombre no cumple los requisitos.")
 
 
 class Editarcategoria(Dialogo):

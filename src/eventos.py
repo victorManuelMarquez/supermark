@@ -63,8 +63,14 @@ def cargarProductos(key, lista):
     try:
         conexion = bd.Conexion()
         conexion.ejecutar(f'SELECT * FROM productos_disponibles')
+        # temporal
+        #
+        #
         for tupla in conexion.datos():
             print(tupla)
+        #
+        #
+        #
     except bd.Conexionerror:
         mb.showerror(title="Error al conectar", message="Falló la conexión con la base de datos.")
     finally:
