@@ -87,6 +87,9 @@ def moduloProducto(app):
 
     app.nextCampo = buscar
 
+    buscar.bind('<Return>', lambda key :evt.cargarProductos(key, products))
+    app.root.after(100, lambda:evt.cargarProductos(None, products))
+
 
 def moduloCarrito(app):
     master = Frame()

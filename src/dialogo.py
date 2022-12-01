@@ -1,5 +1,6 @@
 import eventos as evt
-from tkinter import Toplevel, Label, Entry, Button, Checkbutton
+import conexion as bd
+from tkinter import Toplevel, Label, Entry, Button, Checkbutton, messagebox as mb
 
 
 class Dialogo(Toplevel):
@@ -20,16 +21,45 @@ class Nuevocliente(Dialogo):
         cmpProp = {'columnspan':2, 'padx':6, 'pady':6}
 
         Label(self, text="D.N.I:").grid(row=0, column=0, padx=6, pady=6)
-        Entry(self, **entryProp).grid(row=0, column=1, **cmpProp)
+        dni = Entry(self, name="dni", **entryProp)
+        dni.grid(row=0, column=1, **cmpProp)
 
         Label(self, text="Nombre:").grid(row=1, column=0, padx=6, pady=6)
-        Entry(self, **entryProp).grid(row=1, column=1, **cmpProp)
+        nombre = Entry(self, name="nombre", **entryProp)
+        nombre.grid(row=1, column=1, **cmpProp)
 
         Label(self, text="Apellido:").grid(row=2, column=0, padx=6, pady=6)
-        Entry(self, **entryProp).grid(row=2, column=1, **cmpProp)
+        apellido = Entry(self, name="apellido", **entryProp)
+        apellido.grid(row=2, column=1, **cmpProp)
 
-        Button(self, text="Registrar").grid(row=3, column=1, padx=6, pady=6)
+        self.__campos = [dni, nombre, apellido]
+
+        Button(self, text="Registrar", command=lambda:self.registrarCliente()).grid(row=3, column=1, padx=6, pady=6)
         Button(self, text="Cancelar", command=lambda:evt.salir(self)).grid(row=3, column=2, padx=6, pady=6)
+    
+
+    def registrarCliente(self):
+        datos = []
+        invalidado = None
+        for campo in self.__campos:
+            if evt.validar(campo):
+                datos.append(campo.get())
+            else:
+                invalidado = campo
+                break
+        if len(self.__campos) == len(datos):
+            try:
+                conexion = bd.Conexion()
+                ins = conexion.ejecutar(f'''
+                INSERT INTO personas(dni, nombre_completo, usuario, clave, cliente) 
+                VALUES('{datos[0]}', '{datos[1]} {datos[2]}', '{datos[1]}', '{datos[2]}', '{True}')''')
+                if ins > 0:
+                    mb.showinfo(title="Cliente/Usuario registrado", message="Nuevo cliente registrado: Ok!")
+                conexion.cerrar()
+            except bd.Conexionerror:
+                mb.showerror(title="Error al conectar", message="Falló la operación en/con la base de datos.")
+        else:
+            mb.showerror(title="Campo inválido", message=f"El campo `{invalidado.winfo_name()}` no cumple los requisitos.")
 
 
 class Editarcliente(Dialogo):

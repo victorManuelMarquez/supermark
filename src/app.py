@@ -1,5 +1,5 @@
 import componentes as cmp
-from tkinter import Tk, Frame, font, BooleanVar
+from tkinter import Tk, font, BooleanVar
 
 
 class App():

@@ -5,27 +5,27 @@ import sqlite3 as sql
 def ruta_absoluta(bd_path):
     return os.path.join(os.path.dirname(__file__), bd_path)
 
+
 class Conexion():
-    def __init__(self, bd=ruta_absoluta('supermark.db')):
-        self.__sqlconnection = sql.connect(bd)
-        self.__cursor = self.__sqlconnection.cursor()
-    
 
-    def ejecutar(self, consulta, parametros):
-        self.__sqlconnection.executemany(consulta, parametros)
+    def __init__(self, db_path=ruta_absoluta("supermark.db")):
+        self.__conexion = sql.connect(db_path, detect_types=sql.PARSE_DECLTYPES | sql.PARSE_COLNAMES)
+        self.__cursor = self.__conexion.cursor()
+
+    def ejecutar(self, consulta):
+        self.__cursor.execute(consulta)
+        if 'INSERT' in consulta or 'UPDATE' in consulta or 'DELETE' in consulta:
+            self.__conexion.commit()
         return self.__cursor.rowcount
-
 
     def datos(self):
         return self.__cursor.fetchall()
 
-
     def columnas(self):
-        return [nombre for nombre in self.__cursor.description]
-
-
+        return [nombre[0] for nombre in self.__cursor.description]
+    
     def cerrar(self):
-        self.__sqlconnection.close()
+        self.__conexion.close()
 
 
 class Conexionerror(sql.Error):
