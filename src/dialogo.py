@@ -162,7 +162,7 @@ class Borrarcategoria(Dialogo):
 
 
 class Nuevoproducto(Dialogo):
-    def __init__(self, root, titulo="Nuevo producto", ancho=360, alto=240):
+    def __init__(self, root, titulo="Nuevo producto", ancho=360, alto=186):
         super().__init__(root, titulo, ancho, alto)
         entryProp = {'justify':'left', 'bg':'#ffffff', 'width':25}
         cmpProp = {'columnspan':2, 'padx':6, 'pady':6}

@@ -59,23 +59,39 @@ def iniciarSesion(key, campoUsuario, campoClave, nextCampo):
             conexion.cerrar()
 
 
-def cargarProductos(key, lista):
+def estableceColumnas(tabla, columnas):
+    tabla.config(columns=columnas)
+    for columna in columnas:
+        tabla.heading(columna, text=columna)
+
+
+def cargarProductos(key, tabla):
     try:
+        # vacio los datos anteriores
+        tabla.delete(*tabla.get_children())
+
         conexion = bd.Conexion()
         conexion.ejecutar(f'SELECT * FROM productos_disponibles')
-        # temporal
-        #
-        #
-        for tupla in conexion.datos():
-            print(tupla)
-        #
-        #
-        #
+        global columnas
+        columnas = conexion.columnas()
+
+        estableceColumnas(tabla, columnas)
+
+        for fila in conexion.datos():
+            tabla.insert("", "end", values=fila)
+        
     except bd.Conexionerror:
         mb.showerror(title="Error al conectar", message="Falló la conexión con la base de datos.")
     finally:
         if conexion:
             conexion.cerrar()
+
+
+def agregarAlCarrito(input, productos, carrito):
+    seleccion = productos.selection()
+    estableceColumnas(carrito, columnas)
+    for fila in seleccion:
+        carrito.insert("", "end", values=productos.item(fila).get('values'))
 
 
 def validar(campo, min=2, max=30):

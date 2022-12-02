@@ -1,5 +1,6 @@
 import eventos as evt
-from tkinter import Menu, Label, Entry, Checkbutton, LabelFrame, Frame, Listbox, Button
+from tkinter import Menu, Label, Entry, Checkbutton, LabelFrame, Frame, Button
+from tkinter.ttk import Treeview
 
 def menuArchivo(root, barra):
     file = Menu(barra)
@@ -78,7 +79,7 @@ def moduloProducto(app):
 
     frame.pack()
 
-    products = Listbox(lf, justify='left', bg='#ffffff')
+    products = Treeview(lf, show='headings', selectmode='extended')
     products.pack(side='left', fill='both', expand=True, padx=6, pady=6)
 
     lf.pack(fill='both', expand=True, padx=6, pady=6)
@@ -87,8 +88,11 @@ def moduloProducto(app):
 
     app.nextCampo = buscar
 
-    buscar.bind('<Return>', lambda key :evt.cargarProductos(key, products))
     app.root.after(100, lambda:evt.cargarProductos(None, products))
+
+    buscar.bind('<Return>', lambda key :evt.cargarProductos(key, products))
+    products.bind('<Return>', lambda key:evt.agregarAlCarrito(key, products, cart))
+    products.bind('<Double-Button>', lambda btn:evt.agregarAlCarrito(btn, products, cart))
 
 
 def moduloCarrito(app):
@@ -97,7 +101,8 @@ def moduloCarrito(app):
 
     frame = Frame(lf)
 
-    cart = Listbox(frame, bg="#ffffff")
+    global cart
+    cart = Treeview(frame, show='headings')
     cart.pack(side='left', fill='both', expand=True, padx=6, pady=6)
 
     frame.pack(fill='both', expand=True)
