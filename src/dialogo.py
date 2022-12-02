@@ -1,6 +1,7 @@
 import eventos as evt
 import conexion as bd
 from tkinter import Toplevel, Label, Entry, Button, Checkbutton, messagebox as mb
+from tkinter.ttk import Combobox
 
 
 class Dialogo(Toplevel):
@@ -52,7 +53,7 @@ class Nuevocliente(Dialogo):
                 conexion = bd.Conexion()
                 ins = conexion.ejecutar(f'''
                 INSERT INTO personas(dni, nombre_completo, usuario, clave, cliente) 
-                VALUES('{datos[0]}', '{datos[1]} {datos[2]}', '{datos[1]}', '{datos[2]}', '{True}')''')
+                VALUES('{datos[0]}', '{datos[1]} {datos[2]}', '{datos[1]}', '{datos[2]}', '{int(True)}')''')
                 if ins > 0:
                     mb.showinfo(title="Cliente/Usuario registrado", message="Nuevo cliente registrado: Ok!")
                     evt.salir(self)
@@ -161,8 +162,81 @@ class Borrarcategoria(Dialogo):
 
 
 class Nuevoproducto(Dialogo):
-    def __init__(self, root, titulo="Nuevo producto", ancho=320, alto=240):
+    def __init__(self, root, titulo="Nuevo producto", ancho=360, alto=240):
         super().__init__(root, titulo, ancho, alto)
+        entryProp = {'justify':'left', 'bg':'#ffffff', 'width':25}
+        cmpProp = {'columnspan':2, 'padx':6, 'pady':6}
+
+        Label(self, text="Categoría:").grid(row=0, column=0, padx=6, pady=6)
+        self.categorias = Combobox(self, width=25)
+        self.categorias.grid(row=0, column=1, **cmpProp)
+
+        Label(self, text="Descripción:").grid(row=1, column=0, padx=6, pady=6)
+        self.descr = Entry(self, **entryProp)
+        self.descr.grid(row=1, column=1, **cmpProp)
+
+        Label(self, text="Precio:").grid(row=2, column=0, padx=6, pady=6)
+        self.precio = Entry(self, **entryProp)
+        self.precio.grid(row=2, column=1, **cmpProp)
+
+        Label(self, text="Stock:").grid(row=3, column=0, padx=6, pady=6)
+        self.stock = Entry(self, **entryProp)
+        self.stock.grid(row=3, column=1, **cmpProp)
+
+        Button(self, text="Registrar", command=lambda:self.registrarProducto()).grid(row=4, column=1, padx=6, pady=6)
+        Button(self, text="Cancelar", command=lambda:evt.salir(self)).grid(row=4, column=2, padx=6, pady=6)
+
+        self.after(100, lambda: self.cargarCategorias())
+
+
+    def cargarCategorias(self):
+        try:
+            conexion = bd.Conexion()
+            conexion.ejecutar('SELECT * FROM categorias')
+            lista = []
+            for valor in conexion.datos():
+                lista.append(valor[1])
+            self.categorias['values'] = lista
+        except bd.Conexionerror:
+            mb.showerror(title="Error al conectar", message="Falló la operación en/con la base de datos.")
+        finally:
+            if conexion:
+                conexion.cerrar()
+
+
+    def registrarProducto(self):
+        idCategoria = None
+        try:
+            conexion = bd.Conexion()
+            conexion.ejecutar(f'SELECT id FROM categorias WHERE nombre = "{self.categorias.get()}" LIMIT 1')
+            idCategoria = int(conexion.datos()[0][0])
+        except bd.Conexionerror:
+            mb.showerror(title="Error al conectar", message="Falló la operación en/con la base de datos.")
+        finally:
+            if conexion:
+                conexion.cerrar()
+
+        if idCategoria is not None:
+            try:
+                conexion = bd.Conexion()
+                ins = conexion.ejecutar(f'''
+                INSERT INTO productos(id_categoria, descripcion, precio, stock) 
+                VALUES(
+                    {idCategoria},
+                    "{self.descr.get()}",
+                    {float(self.precio.get())},
+                    {int(self.stock.get())}
+                )''')
+                if ins > 0:
+                    mb.showinfo(title="Producto registrado", message="Nuevo producto registrado: Ok!")
+                    evt.salir(self)
+            except bd.Conexionerror:
+                mb.showerror(title="Error al conectar", message="Falló la operación en/con la base de datos.")
+            finally:
+                if conexion:
+                    conexion.cerrar()
+        else:
+            mb.showerror(title="Categoría no encontrada", message=f"la categoría `{self.categorias.get()}` no fue encontrada.")
 
 
 class Editarproducto(Dialogo):
