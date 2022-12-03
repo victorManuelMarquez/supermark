@@ -12,7 +12,9 @@ class Dialogo(Toplevel):
         self.resizable(width=False, height=False)
     
     def dimension(self, w, h):
-        self.geometry("%dx%d" % (w, h))
+        sw = self.winfo_screenwidth()
+        sh = self.winfo_screenheight()
+        self.geometry("%dx%d+%d+%d" % (w, h, (sw-w)/2, (sh-h)/2))
 
 
 class Nuevocliente(Dialogo):
@@ -125,7 +127,6 @@ class Borrarcliente(Dialogo):
 class Nuevacategoria(Dialogo):
     def __init__(self, root, titulo="Nueva categoría", ancho=320, alto=72):
         super().__init__(root, titulo, ancho, alto)
-
         Label(self, text="Nombre:").grid(row=0, column=0, padx=6, pady=6)
         self.nombre = Entry(self, justify='right', bg='#ffffff')
         self.nombre.grid(row=0, column=1, columnspan=2, padx=6, pady=6)
@@ -162,8 +163,9 @@ class Borrarcategoria(Dialogo):
 
 
 class Nuevoproducto(Dialogo):
-    def __init__(self, root, titulo="Nuevo producto", ancho=360, alto=186):
+    def __init__(self, root, products, titulo="Nuevo producto", ancho=360, alto=186):
         super().__init__(root, titulo, ancho, alto)
+        self.productos = products
         entryProp = {'justify':'left', 'bg':'#ffffff', 'width':25}
         cmpProp = {'columnspan':2, 'padx':6, 'pady':6}
 
@@ -230,6 +232,7 @@ class Nuevoproducto(Dialogo):
                 if ins > 0:
                     mb.showinfo(title="Producto registrado", message="Nuevo producto registrado: Ok!")
                     evt.salir(self)
+                    evt.cargarProductos(None, self.productos)
             except bd.Conexionerror:
                 mb.showerror(title="Error al conectar", message="Falló la operación en/con la base de datos.")
             finally:

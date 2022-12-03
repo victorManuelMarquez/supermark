@@ -17,8 +17,9 @@ class App():
         # Estáticos
         self.cliente = BooleanVar(value=True)
         self.nextCampo = None
+        self.sesion = False
 
-        cmp.menuBar(self.root)
+        cmp.menuBar(self)
         cmp.moduloUsuario(self)
         cmp.moduloProducto(self)
         cmp.moduloCarrito(self)

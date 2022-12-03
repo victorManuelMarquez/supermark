@@ -3,53 +3,81 @@ import conexion as bd
 from tkinter import messagebox as mb
 
 
-def nuevoCliente(root):
-    dialogo.Nuevocliente(root)
+def nuevoCliente(root, sesion):
+    if not sesion:
+        mb.showerror(title="Sesión no iniciada", message="¡No has iniciado sesión!")
+    else:
+        dialogo.Nuevocliente(root)
 
 
-def editarCliente(root):
-    dialogo.Editarcliente(root)
+def editarCliente(root, sesion):
+    if not sesion:
+        mb.showerror(title="Sesión no iniciada", message="¡No has iniciado sesión!")
+    else:
+        dialogo.Editarcliente(root)
 
 
-def borrarCliente(root):
-    dialogo.Borrarcliente(root)
+def borrarCliente(root, sesion):
+    if not sesion:
+        mb.showerror(title="Sesión no iniciada", message="¡No has iniciado sesión!")
+    else:
+        dialogo.Borrarcliente(root)
 
 
-def nuevaCategoria(root):
-    dialogo.Nuevacategoria(root)
+def nuevaCategoria(root, sesion):
+    if not sesion:
+        mb.showerror(title="Sesión no iniciada", message="¡No has iniciado sesión!")
+    else:
+        dialogo.Nuevacategoria(root)
 
 
-def editarCategoria(root):
-    dialogo.Editarcategoria(root)
+def editarCategoria(root, sesion):
+    if not sesion:
+        mb.showerror(title="Sesión no iniciada", message="¡No has iniciado sesión!")
+    else:
+        dialogo.Editarcategoria(root)
 
 
-def borrarCategoria(root):
-    dialogo.Borrarcategoria(root)
+def borrarCategoria(root, sesion):
+    if not sesion:
+        mb.showerror(title="Sesión no iniciada", message="¡No has iniciado sesión!")
+    else:
+        dialogo.Borrarcategoria(root)
 
 
-def nuevoProducto(root):
-    dialogo.Nuevoproducto(root)
+def nuevoProducto(root, products, sesion):
+    if not sesion:
+        mb.showerror(title="Sesión no iniciada", message="¡No has iniciado sesión!")
+    else:
+        dialogo.Nuevoproducto(root, products)
 
 
-def editarProducto(root):
-    dialogo.Editarproducto(root)
+def editarProducto(root, sesion):
+    if not sesion:
+        mb.showerror(title="Sesión no iniciada", message="¡No has iniciado sesión!")
+    else:
+        dialogo.Editarproducto(root)
 
 
-def borrarProducto(root):
-    dialogo.Borrarproducto(root)
+def borrarProducto(root, sesion):
+    if not sesion:
+        mb.showerror(title="Sesión no iniciada", message="¡No has iniciado sesión!")
+    else:
+        dialogo.Borrarproducto(root)
 
 
-def iniciarSesion(key, campoUsuario, campoClave, nextCampo):
+def iniciarSesion(key, app, campoUsuario, campoClave):
     nombre = campoUsuario.get()
     clave = campoClave.get()
     try:
         conexion = bd.Conexion()
         conexion.ejecutar(f'SELECT * FROM usuarios WHERE usuario = "{nombre}" AND clave = "{clave}"')
-        if len(conexion.datos()) > 0:
+        app.sesion = len(conexion.datos()) > 0
+        if app.sesion:
             mb.showinfo(title="Bienvenido/a", message="¡Sesión iniciada!")
             campoUsuario.delete(0, 'end')
             campoClave.delete(0, 'end')
-            nextCampo.focus_set()
+            app.nextCampo.focus_set()
         else:
             mb.showerror(title="No encontrado", message=f"El usuario `{nombre}` no existe.")
     except bd.Conexionerror:
@@ -92,6 +120,20 @@ def agregarAlCarrito(input, productos, carrito):
     estableceColumnas(carrito, columnas)
     for fila in seleccion:
         carrito.insert("", "end", values=productos.item(fila).get('values'))
+
+
+def comprar(carrito):
+    compras = []
+    for fila in carrito.get_children():
+        compras.append(carrito.item(fila).get('values'))
+    print(compras.__len__, compras)
+
+
+def limpiar(carrito):
+    if len(carrito.get_children()) == 0:
+        mb.showerror(title="Operación inválida", message="El carrito está vacío.")
+    elif mb.askyesno(title="Atención", message="¿Desea vaciar el carrito?"):
+        carrito.delete(*carrito.get_children())
 
 
 def validar(campo, min=2, max=30):

@@ -2,43 +2,43 @@ import eventos as evt
 from tkinter import Menu, Label, Entry, Checkbutton, LabelFrame, Frame, Button
 from tkinter.ttk import Treeview
 
-def menuArchivo(root, barra):
+def menuArchivo(app, barra):
     file = Menu(barra)
-    file.add_command(label="Salir", command=lambda:evt.salir(root))
+    file.add_command(label="Salir", command=lambda:evt.salir(app.root))
     barra.add_cascade(label="Archivo", menu=file)
 
 
-def menuCliente(root, barra):
+def menuCliente(app, barra):
     client = Menu(barra)
-    client.add_command(label="Nuevo", command=lambda:evt.nuevoCliente(root))
-    client.add_command(label="Editar", command=lambda:evt.editarCliente(root))
-    client.add_command(label="Borrar", command=lambda:evt.borrarCliente(root))
+    client.add_command(label="Nuevo", command=lambda:evt.nuevoCliente(app.root, app.sesion))
+    client.add_command(label="Editar", command=lambda:evt.editarCliente(app.root, app.sesion))
+    client.add_command(label="Borrar", command=lambda:evt.borrarCliente(app.root, app.sesion))
     barra.add_cascade(label="Clientes", menu=client)
 
 
-def menuProducto(root, barra):
+def menuProducto(app, barra):
     product = Menu(barra)
-    product.add_command(label="Nuevo", command=lambda:evt.nuevoProducto(root))
-    product.add_command(label="Editar", command=lambda:evt.editarProducto(root))
-    product.add_command(label="Borrar", command=lambda:evt.borrarProducto(root))
+    product.add_command(label="Nuevo", command=lambda:evt.nuevoProducto(app.root, products, app.sesion))
+    product.add_command(label="Editar", command=lambda:evt.editarProducto(app.root, app.sesion))
+    product.add_command(label="Borrar", command=lambda:evt.borrarProducto(app.root, app.sesion))
     barra.add_cascade(label="Productos", menu=product)
 
 
-def menuCategoria(root, barra):
+def menuCategoria(app, barra):
     category = Menu(barra)
-    category.add_command(label="Nueva", command=lambda:evt.nuevaCategoria(root))
-    category.add_command(label="Editar", command=lambda:evt.editarCategoria(root))
-    category.add_command(label="Borrar", command=lambda:evt.borrarCategoria(root))
+    category.add_command(label="Nueva", command=lambda:evt.nuevaCategoria(app.root, app.sesion))
+    category.add_command(label="Editar", command=lambda:evt.editarCategoria(app.root, app.sesion))
+    category.add_command(label="Borrar", command=lambda:evt.borrarCategoria(app.root, app.sesion))
     barra.add_cascade(label="Categorías", menu=category)
 
 
-def menuBar(root):
-    barra = Menu(root)
-    menuArchivo(root, barra)
-    menuCategoria(root, barra)
-    menuProducto(root, barra)
-    menuCliente(root, barra)
-    root.config(menu=barra)
+def menuBar(app):
+    barra = Menu(app.root)
+    menuArchivo(app, barra)
+    menuCategoria(app, barra)
+    menuProducto(app, barra)
+    menuCliente(app, barra)
+    app.root.config(menu=barra)
 
 
 def moduloUsuario(app):
@@ -62,8 +62,8 @@ def moduloUsuario(app):
 
     master.pack()
 
-    campoUsuario.bind('<Return>', lambda key :evt.iniciarSesion(key, campoUsuario, campoClave, app.nextCampo))
-    campoClave.bind('<Return>', lambda key :evt.iniciarSesion(key, campoUsuario, campoClave, app.nextCampo))
+    campoUsuario.bind('<Return>', lambda key :evt.iniciarSesion(key, app, campoUsuario, campoClave))
+    campoClave.bind('<Return>', lambda key :evt.iniciarSesion(key, app, campoUsuario, campoClave))
 
 
 def moduloProducto(app):
@@ -79,6 +79,7 @@ def moduloProducto(app):
 
     frame.pack()
 
+    global products
     products = Treeview(lf, show='headings', selectmode='extended')
     products.pack(side='left', fill='both', expand=True, padx=6, pady=6)
 
@@ -114,8 +115,8 @@ def moduloCarrito(app):
 
 def moduloOperaciones(app):
     master = Frame()
-    Button(master, text="Comprar", bg='#f3e244').pack(fill='x', expand=True, pady=6)
-    Button(master, text="Cancelar", bg='#f34444').pack(fill='x', expand=True, pady=6)
-    Button(master, text="Vaciar\nCarrito", bg='#bfbfbf').pack(fill='x', expand=True, pady=6)
+    Button(master, text="Comprar", bg='#f3e244', command=lambda:evt.comprar(cart)).pack(fill='x', expand=True, pady=6)
+    Button(master, text="Cerrar\nSesión", bg='#f34444').pack(fill='x', expand=True, pady=6)
+    Button(master, text="Vaciar\nCarrito", bg='#bfbfbf', command=lambda:evt.limpiar(cart)).pack(fill='x', expand=True, pady=6)
 
     master.pack(side='left', fill='y', padx=6, pady=6)
