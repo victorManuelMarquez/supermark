@@ -42,6 +42,8 @@ Diagrama realizado con [DBeaver](https://dbeaver.io/).
 ## Integrantes:
 
 - [Víctor Manuel Márquez](https://github.com/victorManuelMarquez)
+<!---
 - [Lucas Martin Aramayo Tapia](https://github.com/LTapia2501)
 - [Moya Montero Matias Exequiel](https://github.com/Mmoya123)
-- [Luz Milagros Gomez Rivera](https://github.com/luzzgomez) 
+- [Luz Milagros Gomez Rivera](https://github.com/luzzgomez)
+-->
