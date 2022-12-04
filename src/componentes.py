@@ -89,9 +89,9 @@ def moduloProducto(app):
 
     app.nextCampo = buscar
 
-    app.root.after(100, lambda:evt.cargarProductos(None, products))
+    app.root.after(100, lambda:evt.cargarProductos(None, products, ''))
 
-    buscar.bind('<Return>', lambda key :evt.cargarProductos(key, products))
+    buscar.bind('<KeyRelease>', lambda key :evt.cargarProductos(key, products, buscar.get()))
     products.bind('<Return>', lambda key:evt.agregarAlCarrito(key, products, cart))
     products.bind('<Double-Button>', lambda btn:evt.agregarAlCarrito(btn, products, cart))
 

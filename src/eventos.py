@@ -93,13 +93,13 @@ def estableceColumnas(tabla, columnas):
         tabla.heading(columna, text=columna)
 
 
-def cargarProductos(key, tabla):
+def cargarProductos(key, tabla, valor):
     try:
         # vacio los datos anteriores
         tabla.delete(*tabla.get_children())
 
         conexion = bd.Conexion()
-        conexion.ejecutar(f'SELECT * FROM productos_disponibles')
+        conexion.ejecutar(f'SELECT * FROM productos_disponibles WHERE `Detalles` LIKE "%{valor}%"')
         global columnas
         columnas = conexion.columnas()
 
