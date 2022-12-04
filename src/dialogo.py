@@ -1,6 +1,6 @@
 import eventos as evt
 import conexion as bd
-from tkinter import Toplevel, Label, Entry, Button, Checkbutton, messagebox as mb
+from tkinter import Toplevel, Label, Entry, Button, Checkbutton, messagebox as mb, Scale, BooleanVar
 from tkinter.ttk import Combobox
 
 
@@ -69,33 +69,105 @@ class Nuevocliente(Dialogo):
 
 
 class Editarcliente(Dialogo):
-    def __init__(self, root, titulo="Editar cliente", ancho=360, alto=276):
+    def __init__(self, root, titulo="Editar cliente", ancho=420, alto=252):
         super().__init__(root, titulo, ancho, alto)
         entryProp = {'justify':'left', 'bg':'#ffffff', 'width':25}
         cmpProp = {'columnspan':2, 'padx':6, 'pady':6}
 
         Label(self, text="Buscar:").grid(row=0, column=0, padx=6, pady=6)
-        Entry(self, **entryProp).grid(row=0, column=1, **cmpProp)
+        self.buscar = Entry(self, **entryProp)
+        self.buscar.grid(row=0, column=1, **cmpProp)
 
-        Label(self, text="0 resultados").grid(row=1, column=0, padx=6, pady=6)
-        Button(self, text="Anterior").grid(row=1, column=1, padx=6, pady=6)
-        Button(self, text="Siguiente").grid(row=1, column=2, padx=6, pady=6)
+        self.nav = Scale(self, from_=0, to=0, command=lambda indice :self.ponerValores(int(indice)), orient='horizontal', length=400, state='disabled')
+        self.nav.grid(row=1, column=0, padx=6, pady=6, columnspan=3)
 
         Label(self, text="D.N.I:").grid(row=2, column=0, padx=6, pady=6)
-        Entry(self, **entryProp).grid(row=2, column=1, **cmpProp)
+        self.dni = Entry(self, **entryProp)
+        self.dni.grid(row=2, column=1, **cmpProp)
 
-        Label(self, text="Nombre:").grid(row=3, column=0, padx=6, pady=6)
-        Entry(self, **entryProp).grid(row=3, column=1, **cmpProp)
+        Label(self, text="Nombre completo:").grid(row=3, column=0, padx=6, pady=6)
+        self.nombre = Entry(self, **entryProp)
+        self.nombre.grid(row=3, column=1, **cmpProp)
 
-        Label(self, text="Apellido:").grid(row=4, column=0, padx=6, pady=6)
-        Entry(self, **entryProp).grid(row=4, column=1, **cmpProp)
+        self.var_cliente = BooleanVar(value=False)
 
-        Checkbutton(self, text="Cliente").grid(row=5, column=1, columnspan=2)
+        self.cliente = Checkbutton(self, text="Cliente", variable=self.var_cliente, onvalue=True, offvalue=False)
+        self.cliente.grid(row=4, column=0)
 
-        Checkbutton(self, text="Habilitado").grid(row=6, column=1, columnspan=2)
+        self.var_activo = BooleanVar(value=False)
 
-        Button(self, text="Actualizar").grid(row=7, column=1, padx=6, pady=6)
-        Button(self, text="Cancelar", command=lambda:evt.salir(self)).grid(row=7, column=2, padx=6, pady=6)
+        self.activo = Checkbutton(self, text="Habilitado", variable=self.var_activo, onvalue=True, offvalue=False)
+        self.activo.grid(row=4, column=1)
+
+        Button(self, text="Actualizar", command=lambda:self.actualizarPersona()).grid(row=5, column=1, padx=6, pady=6)
+        Button(self, text="Cancelar", command=lambda:evt.salir(self)).grid(row=5, column=2, padx=6, pady=6)
+
+        self.personas = []
+
+        self.after(100, lambda:self.cargarPersonas())
+
+        self.buscar.bind('<KeyRelease>', lambda key :self.cargarPersonas())
+
+
+    def cargarPersonas(self):
+        try:
+            valor = self.buscar.get()
+            conexion = bd.Conexion()
+            conexion.ejecutar(f'''
+            SELECT * FROM personas 
+            WHERE dni LIKE "%{valor}%" OR nombre_completo LIKE "%{valor}%"''')
+            claves = conexion.columnas()
+            self.personas.clear()
+            for valor in conexion.datos():
+                self.personas.append(dict(zip(claves, valor)))
+            self.nav.config(from_=1, to=len(self.personas), tickinterval=len(self.personas)-1, state='normal')
+            if len(self.personas) > 0:
+                self.ponerValores(0)
+            else:
+                self.dni.delete(0, 'end')
+                self.nombre.delete(0, 'end')
+                self.var_cliente.set(value=False)
+                self.var_activo.set(value=False)
+        except bd.Conexionerror:
+            mb.showerror(title="Error al conectar", message="Falló la operación en/con la base de datos.")
+        finally:
+            if conexion:
+                conexion.cerrar()
+
+
+    def ponerValores(self, indice):
+        persona = self.personas[indice-1]
+        self.dni.delete(0, 'end')
+        self.dni.insert(0, persona.get('dni'))
+        self.nombre.delete(0, 'end')
+        self.nombre.insert(0, persona.get('nombre_completo'))
+        self.var_cliente.set(value=bool(persona.get('cliente')))
+        self.var_activo.set(value=bool(persona.get('activo')))
+
+
+    def actualizarPersona(self):
+        if len(self.personas) > 0:
+            try:
+                conexion = bd.Conexion()
+                updated = conexion.ejecutar(f'''
+                UPDATE 
+                    personas 
+                SET
+                    dni = "{self.dni.get()}",
+                    nombre_completo = "{self.nombre.get()}",
+                    cliente = {int(self.var_cliente.get())},
+                    activo = {int(self.var_activo.get())}
+                WHERE id = {self.personas[int(self.nav.get()) - 1].get('id')}''')
+                if updated > 0:
+                    mb.showinfo(title="Datos actualizados", message="Persona actualizada: Ok!")
+                    evt.salir(self)
+            except bd.Conexionerror:
+                mb.showerror(title="Error al conectar", message="Falló la operación en/con la base de datos.")
+            finally:
+                if conexion:
+                    conexion.cerrar()
+        else:
+            mb.showerror(title="Operación inválida", message="¡No se puede realizar esta operación!")
 
 
 class Borrarcliente(Dialogo):
