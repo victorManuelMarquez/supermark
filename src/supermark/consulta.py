@@ -318,11 +318,7 @@ def todas_las_ventas_de(cliente):
     matriz = {'cols':[], 'rows':[]}
     try:
         conexion = bd.Conexion()
-        conexion.ejecutar(f'''
-        SELECT DISTINCT `Ticket`, `Cliente`, `Fecha de compra` 
-        FROM ventas_detalles INNER JOIN tickets ON tickets.id = ventas_detalles.`Ticket`
-        WHERE id_facilitador = {cliente["id"]}
-        ''')
+        conexion.ejecutar(f'SELECT * FROM ventas_detalles')
         matriz['cols'] = conexion.metadata
         matriz['rows'] = conexion.resulset
     except sql.Error as error:

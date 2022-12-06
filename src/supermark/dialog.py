@@ -558,7 +558,7 @@ class Ventas(Dialogo):
 
         frame.pack(fill='both', expand=True, padx=6, pady=6)
 
-        Button(self, text="Cerrar", command=lambda : evt.salir(self)).grid(padx=6, pady=6)
+        Button(self, text="Cerrar", command=lambda : evt.salir(self)).pack(padx=6, pady=6)
 
         self.after(100, lambda : self.cargarVentas())
 
