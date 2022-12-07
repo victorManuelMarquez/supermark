@@ -21,18 +21,20 @@ def cargarProductos(tabla, valorBuscado):
 
 
 def agregarAlCarrito(productos, carrito, total):
-    carrito.columnas = productos.columnas
-    for iid in productos.cuerpo.selection():
-        #compras.append(productos.cuerpo.item(iid).get('values'))
-        carrito.filas.append(productos.cuerpo.item(iid).get('values'))
-    carrito.refrescar()
-    monto = float(total.get())
-    for fila in carrito.listaDiccionario():
-        monto += float(fila['Precio unitario'])
-    total.config(state='normal')
-    total.delete(0, 'end')
-    total.insert(0, str(monto))
-    total.config(state='readonly')
+    if len(carrito.filas) + len(productos.cuerpo.selection()) > 30:
+        mb.showerror(title="Error", message="No puedes comprar más de 30 productos.")
+    else:
+        carrito.columnas = productos.columnas
+        for iid in productos.cuerpo.selection():
+            carrito.filas.append(productos.cuerpo.item(iid).get('values'))
+        carrito.refrescar()
+        monto = float(total.get())
+        for fila in carrito.listaDiccionario():
+            monto += float(fila['Precio unitario'])
+        total.config(state='normal')
+        total.delete(0, 'end')
+        total.insert(0, str(monto))
+        total.config(state='readonly')
 
 
 def realizarCompra(app, carrito):
