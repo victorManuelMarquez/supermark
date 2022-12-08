@@ -21,8 +21,8 @@ class Tabla():
     
 
     @columnas.setter
-    def columnas(self, cols):
-        self.__cols = cols
+    def columnas(self, columnas):
+        self.__cols = columnas
         self.__cargar_columnas()
     
 
@@ -32,13 +32,14 @@ class Tabla():
     
 
     @filas.setter
-    def filas(self, rows):
-        self.__rows = rows
+    def filas(self, filas):
+        self.__rows = filas
         self.__cargar_filas()
     
 
     def listaDiccionario(self):
         datos = []
+        print(self.columnas, self.filas)
         for fila in self.filas:
             datos.append(dict(zip(self.columnas, fila)))
         return datos
@@ -63,7 +64,7 @@ class Tabla():
 
 
     def vaciar(self):
-        self.columnas.clear()
-        self.filas.clear()
+        self.__cols.clear()
+        self.__rows.clear()
         self.__cargar_columnas()
         self.__cargar_filas()

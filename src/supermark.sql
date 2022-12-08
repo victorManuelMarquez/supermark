@@ -81,7 +81,8 @@ CREATE VIEW productos_detalles AS
         productos.precio as 'Precio unitario',
         productos.stock as 'Stock',
         productos.activo as 'Activo'
-    FROM (productos INNER JOIN categorias ON categorias.id = productos.id_categoria);
+    FROM (productos INNER JOIN categorias ON categorias.id = productos.id_categoria)
+    ORDER BY categorias.nombre;
 
 DROP VIEW IF EXISTS productos_disponibles;
 
@@ -89,7 +90,8 @@ CREATE VIEW productos_disponibles AS
     SELECT
         productos_detalles.id,
         productos_detalles.detalles,
-        productos_detalles.`Precio unitario`
+        productos_detalles.`Precio unitario`,
+        productos_detalles.`Stock`
     FROM productos_detalles 
         WHERE productos_detalles.activo = TRUE AND productos_detalles.stock > 0;
 

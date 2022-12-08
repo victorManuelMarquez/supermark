@@ -8,7 +8,7 @@ class App():
         self._defaultFont = font.nametofont('TkDefaultFont')
         self._defaultFont.configure(family="Segoe Script", size=11)
         self.root.title(titulo)
-        self.preferredSize(720, 600)
+        self.preferredSize(990, 600)
         self.cliente = {}
         cmp.menuBar(self)
         cmp.moduloUsuario(self)

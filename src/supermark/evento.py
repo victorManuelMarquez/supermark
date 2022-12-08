@@ -20,37 +20,48 @@ def cargarProductos(tabla, valorBuscado):
     tabla.filas = resultados['rows']
 
 
-def agregarAlCarrito(productos, carrito, total):
-    if len(carrito.filas) + len(productos.cuerpo.selection()) > 30:
-        mb.showerror(title="Error", message="No puedes comprar más de 30 productos.")
-    else:
-        carrito.columnas = productos.columnas
-        for iid in productos.cuerpo.selection():
-            carrito.filas.append(productos.cuerpo.item(iid).get('values'))
-        carrito.refrescar()
-        monto = float(total.get())
-        for fila in carrito.listaDiccionario():
-            monto += float(fila['Precio unitario'])
-        total.config(state='normal')
-        total.delete(0, 'end')
-        total.insert(0, str(monto))
-        total.config(state='readonly')
+def agregarAlCarrito(root, productos, carrito, total, filtro):
+    for iid in productos.cuerpo.selection():
+        fila = productos.cuerpo.item(iid).get('values')
+        stock = fila[productos.columnas.index('Stock')]
+        stock -= (1 + len([val for val in carrito.filas if fila[productos.columnas.index('ID')] in val]))
+        if stock >= 0:
+            fila[productos.columnas.index('Stock')] = stock
+            carrito.filas.append(fila)
+        else:
+            mb.showerror(title="Agotado", message="¡Sin stock!")
+    carrito.columnas = productos.columnas.copy()
+    carrito.refrescar()
+    monto = sum(float(fila[carrito.columnas.index('Precio unitario')]) for fila in carrito.filas)
+    total.config(state='normal')
+    total.delete(0, 'end')
+    total.insert(0, str(monto))
+    total.config(state='readonly')
+    filtro.focus_set()
 
 
-def realizarCompra(app, carrito):
+def realizarCompra(app, carrito, total):
     if len(carrito.filas) and app.cliente:
         if consulta.finalizar_compra(app, carrito.listaDiccionario()):
             carrito.vaciar()
+            total.config(state='normal')
+            total.delete(0, 'end')
+            total.insert(0, '0.00')
+            total.config(state='readonly')
     elif len(carrito.filas) == 0:
         mb.showerror(title="Operación inválida", message="Carrito vacío.")
     else:
         mb.showerror(title="Operación inválida", message="No te has registrado.")
 
 
-def vaciarCarrito(carrito):
+def vaciarCarrito(carrito, total):
     if len(carrito.filas):
         if mb.askokcancel(title="Atención", message="¿Desea vaciar el carrito de compras?"):
             carrito.vaciar()
+            total.config(state='normal')
+            total.delete(0, 'end')
+            total.insert(0, '0.00')
+            total.config(state='readonly')
     else:
         mb.showerror(title="Operación inválida", message="Carrito vacío.")
 

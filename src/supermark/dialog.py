@@ -567,3 +567,8 @@ class Ventas(Dialogo):
         resultados = consulta.todas_las_ventas_de(self.__cliente)
         self.__tabla_ventas.columnas = resultados['cols']
         self.__tabla_ventas.filas = resultados['rows']
+
+
+class DefinirArticulos(Dialogo):
+    def __init__(self, root, producto, stock, titulo="Definir artículos", ancho=320, alto=240):
+        super().__init__(root, titulo, ancho, alto)

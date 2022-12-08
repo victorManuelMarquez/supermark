@@ -69,6 +69,7 @@ def finalizar_compra(app, articulos):
                 INSERT INTO ventas(id_ticket, id_producto, cantidad, monto) 
                 VALUES({id}, {articulo['ID']}, 1, {articulo['Precio unitario']})
                 ''')
+                conexion.ejecutar(f'UPDATE productos SET stock = stock - {articulo["Stock"]} WHERE id = {articulo["ID"]}')
         mb.showinfo(title="Éxito", message="¡Venta realizada!")
     except sql.Error as error:
         mb.showerror(title=type(error).__name__, message=str(error))
