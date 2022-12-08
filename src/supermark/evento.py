@@ -20,7 +20,7 @@ def cargarProductos(tabla, valorBuscado):
     tabla.filas = resultados['rows']
 
 
-def agregarAlCarrito(root, productos, carrito, total, filtro):
+def agregarAlCarrito(productos, carrito, total, filtro):
     for iid in productos.cuerpo.selection():
         fila = productos.cuerpo.item(iid).get('values')
         stock = fila[productos.columnas.index('Stock')]
@@ -40,7 +40,7 @@ def agregarAlCarrito(root, productos, carrito, total, filtro):
     filtro.focus_set()
 
 
-def realizarCompra(app, carrito, total):
+def realizarCompra(app, carrito, total, tabla):
     if len(carrito.filas) and app.cliente:
         if consulta.finalizar_compra(app, carrito.listaDiccionario()):
             carrito.vaciar()
@@ -48,6 +48,7 @@ def realizarCompra(app, carrito, total):
             total.delete(0, 'end')
             total.insert(0, '0.00')
             total.config(state='readonly')
+        cargarProductos(tabla, '')
     elif len(carrito.filas) == 0:
         mb.showerror(title="Operación inválida", message="Carrito vacío.")
     else:

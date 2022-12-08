@@ -107,10 +107,10 @@ def moduloProducto(app):
     filtrar.bind('<KeyRelease>', lambda key : evt.cargarProductos(tabla_productos, filtrar.get()))
 
     ## al presionar 'Enter'
-    tabla_productos.cuerpo.bind('<Return>', lambda key : evt.agregarAlCarrito(app.root, tabla_productos, tabla_carrito, total, filtrar))
+    tabla_productos.cuerpo.bind('<Return>', lambda key : evt.agregarAlCarrito(tabla_productos, tabla_carrito, total, filtrar))
 
     ## doble clic con el ratón
-    tabla_productos.cuerpo.bind('<Double-Button>', lambda mbtn : evt.agregarAlCarrito(app.root, tabla_productos, tabla_carrito, total, filtrar))
+    tabla_productos.cuerpo.bind('<Double-Button>', lambda mbtn : evt.agregarAlCarrito(tabla_productos, tabla_carrito, total, filtrar))
 
 
 def moduloCarrito(app):
@@ -147,10 +147,10 @@ def moduloCarrito(app):
 def moduloOperaciones(app):
     master = Frame()
 
-    btn_comprar = Button(master, text="Comprar", command=lambda: evt.realizarCompra(app, tabla_carrito, total))
+    btn_comprar = Button(master, text="Comprar", command=lambda: evt.realizarCompra(app, tabla_carrito, total, tabla_productos))
     btn_comprar.pack(fill='x', expand=True, pady=6)
 
-    btn_vaciar = Button(master, text="Vaciar\ncarrito", command=lambda: evt.vaciarCarrito(tabla_carrito, total))
+    btn_vaciar = Button(master, text="Vaciar\ncarrito", command=lambda: evt.vaciarCarrito(tabla_carrito, total, filtrar))
     btn_vaciar.pack(fill='x', expand=True, pady=6)
 
     master.pack(side='left', fill='y', padx=6, pady=6)
