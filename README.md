@@ -62,9 +62,17 @@ Resolución por defecto 990x600 (debido a problemas visuales con la tabla)
 
 - No hay una validación adicional del lado del servidor (triggers diseñados para parar las consultas en caso de ser necesario).
 
+- No se puede eliminar un item en concreto del carrito.
+
 ## Bugs:
 
 - Un diálogo estándar o messageBox aparecerá por detrás de un diálogo modal.
+
+> ![Captura #bug-001](docs/supermark-bug-001.png)
+
+- El diálogo de ventas es muy pequeño en relación a la tabla.
+
+- Las tablas suponen un problema al mostrar varias columnas.
 
 ## Integrantes:
 
