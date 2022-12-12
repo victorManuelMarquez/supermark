@@ -11,33 +11,33 @@ class Tabla():
     
 
     @property
-    def cuerpo(self):
+    def cuerpo(self) -> Treeview:
         return self.__tree
     
 
     @property
-    def columnas(self):
+    def columnas(self) -> list:
         return self.__cols
     
 
     @columnas.setter
-    def columnas(self, columnas):
+    def columnas(self, columnas: list):
         self.__cols = columnas
         self.__cargar_columnas()
     
 
     @property
-    def filas(self):
+    def filas(self) -> list:
         return self.__rows
     
 
     @filas.setter
-    def filas(self, filas):
+    def filas(self, filas: list):
         self.__rows = filas
         self.__cargar_filas()
     
 
-    def listaDiccionario(self):
+    def listaDiccionario(self) -> list:
         datos = []
         print(self.columnas, self.filas)
         for fila in self.filas:

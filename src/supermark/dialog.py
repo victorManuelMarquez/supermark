@@ -546,9 +546,8 @@ class Compras(Dialogo):
 
 
 class Ventas(Dialogo):
-    def __init__(self, root, cliente, titulo="Ventas", ancho=642, alto=372):
+    def __init__(self, root, titulo="Ventas", ancho=642, alto=372):
         super().__init__(root, titulo, ancho, alto)
-        self.__cliente = cliente
 
         frame = Frame(self)
 
@@ -564,6 +563,6 @@ class Ventas(Dialogo):
 
 
     def cargarVentas(self):
-        resultados = consulta.todas_las_ventas_de(self.__cliente)
+        resultados = consulta.todas_las_ventas_de()
         self.__tabla_ventas.columnas = resultados['cols']
         self.__tabla_ventas.filas = resultados['rows']

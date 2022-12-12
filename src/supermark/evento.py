@@ -1,9 +1,10 @@
 import consulta
-from tkinter import messagebox as mb
+from tkinter import messagebox as mb, Entry
 import dialog
+from tabla import Tabla
 
 
-def iniciarSesion(app, campoUsuario, campoClave, campoBuscar):
+def iniciarSesion(app, campoUsuario: Entry, campoClave: Entry, campoBuscar: Entry):
     if consulta.validar_sesion(app, campoUsuario.get(), campoClave.get()):
         campoUsuario.delete(0, 'end')
         campoClave.delete(0, 'end')
@@ -13,14 +14,14 @@ def iniciarSesion(app, campoUsuario, campoClave, campoBuscar):
         mb.showerror(title="Falló", message=f"Usuario o clave incorrecta.")
 
 
-def cargarProductos(tabla, valorBuscado):
+def cargarProductos(tabla: Tabla, valorBuscado: str):
     tabla.vaciar()
     resultados = consulta.filtrar_productos(valorBuscado)
     tabla.columnas = resultados['cols']
     tabla.filas = resultados['rows']
 
 
-def agregarAlCarrito(productos, carrito, total, filtro):
+def agregarAlCarrito(productos: Tabla, carrito: Tabla, total: Entry, filtro: Entry):
     for iid in productos.cuerpo.selection():
         fila = productos.cuerpo.item(iid).get('values')
         stock = fila[productos.columnas.index('Stock')]
@@ -40,7 +41,7 @@ def agregarAlCarrito(productos, carrito, total, filtro):
     filtro.focus_set()
 
 
-def realizarCompra(app, carrito, total, tabla):
+def realizarCompra(app, carrito: Tabla, total: Entry, productos: Tabla):
     if len(carrito.filas) and app.cliente:
         if consulta.finalizar_compra(app, carrito.listaDiccionario()):
             carrito.vaciar()
@@ -48,14 +49,14 @@ def realizarCompra(app, carrito, total, tabla):
             total.delete(0, 'end')
             total.insert(0, '0.00')
             total.config(state='readonly')
-        cargarProductos(tabla, '')
+        cargarProductos(productos, '')
     elif len(carrito.filas) == 0:
         mb.showerror(title="Operación inválida", message="Carrito vacío.")
     else:
         mb.showerror(title="Operación inválida", message="No te has registrado.")
 
 
-def vaciarCarrito(carrito, total, filtro):
+def vaciarCarrito(carrito: Tabla, total: Entry, filtro: Entry):
     if len(carrito.filas):
         if mb.askokcancel(title="Atención", message="¿Desea vaciar el carrito de compras?"):
             carrito.vaciar()
@@ -95,27 +96,27 @@ def borrarCliente(app):
         mb.showerror(title="Operación inválida", message="No te has registrado.")
 
 
-def nuevoProducto(app, tabla):
+def nuevoProducto(app, producto: Tabla):
     if app.cliente and not app.cliente['cliente']:
-        dialog.NuevoProducto(app.root, tabla)
+        dialog.NuevoProducto(app.root, producto)
     elif app.cliente:
         mb.showerror(title="Operación denegada", message="No puedes realizar está operación.")
     else:
         mb.showerror(title="Operación inválida", message="No te has registrado.")
 
 
-def editarProducto(app, tabla):
+def editarProducto(app, producto: Tabla):
     if app.cliente and not app.cliente['cliente']:
-        dialog.EditarProducto(app.root, tabla)
+        dialog.EditarProducto(app.root, producto)
     elif app.cliente:
         mb.showerror(title="Operación denegada", message="No puedes realizar está operación.")
     else:
         mb.showerror(title="Operación inválida", message="No te has registrado.")
 
 
-def borrarProducto(app, tabla):
+def borrarProducto(app, producto: Tabla):
     if app.cliente and not app.cliente['cliente']:
-        dialog.BorrarProducto(app.root, tabla)
+        dialog.BorrarProducto(app.root, producto)
     elif app.cliente:
         mb.showerror(title="Operación denegada", message="No puedes realizar está operación.")
     else:
@@ -131,9 +132,9 @@ def nuevaCategoria(app):
         mb.showerror(title="Operación inválida", message="No te has registrado.")
 
 
-def editarCategoria(app, tabla):
+def editarCategoria(app, producto: Tabla):
     if app.cliente and not app.cliente['cliente']:
-        dialog.EditarCategoria(app.root, tabla)
+        dialog.EditarCategoria(app.root, producto)
     elif app.cliente:
         mb.showerror(title="Operación denegada", message="No puedes realizar está operación.")
     else:
@@ -144,7 +145,7 @@ def verCompras(app):
     if app.cliente and app.cliente['cliente']:
         dialog.Compras(app.root, app.cliente)
     elif app.cliente:
-        dialog.Ventas(app.root, app.cliente)
+        dialog.Ventas(app.root)
     else:
         mb.showerror(title="Operación inválida", message="No te has registrado.")
 

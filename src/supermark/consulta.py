@@ -3,7 +3,7 @@ import sqlite3 as sql
 from tkinter import messagebox as mb
 
 
-def validar_sesion(app, nombre, clave):
+def validar_sesion(app: any, nombre: str, clave: str) -> bool:
     valido = False
     try:
         conexion = bd.Conexion()
@@ -23,7 +23,7 @@ def validar_sesion(app, nombre, clave):
         return valido
 
 
-def filtrar_productos(valor):
+def filtrar_productos(valor: str) -> dict:
     matriz = {'cols':[], 'rows':[]}
     try:
         conexion = bd.Conexion()
@@ -38,7 +38,7 @@ def filtrar_productos(valor):
         return matriz
 
 
-def finalizar_compra(app, articulos):
+def finalizar_compra(app: any, articulos: list) -> bool:
     estado = False
     try:
         id = None
@@ -79,7 +79,7 @@ def finalizar_compra(app, articulos):
         return estado
 
 
-def registrar_cliente(datos):
+def registrar_cliente(datos: dict) -> bool:
     estado = False
     try:
         conexion = bd.Conexion()
@@ -96,7 +96,7 @@ def registrar_cliente(datos):
         return estado
 
 
-def todas_las_personas(valorBuscado):
+def todas_las_personas(valorBuscado: str) -> list:
     resultados = []
     try:
         conexion = bd.Conexion()
@@ -116,7 +116,7 @@ def todas_las_personas(valorBuscado):
         return resultados
 
 
-def actualizar_cliente(cliente):
+def actualizar_cliente(cliente: dict) -> bool:
     estado = False
     try:
         conexion = bd.Conexion()
@@ -139,7 +139,7 @@ def actualizar_cliente(cliente):
         return estado
 
 
-def borrar_cliente(cliente):
+def borrar_cliente(cliente: dict) -> bool:
     estado = False
     try:
         conexion = bd.Conexion()
@@ -153,7 +153,7 @@ def borrar_cliente(cliente):
         return estado
 
 
-def todas_las_categorias():
+def todas_las_categorias() -> list:
     resultados = []
     try:
         conexion = bd.Conexion()
@@ -168,7 +168,7 @@ def todas_las_categorias():
         return resultados
 
 
-def id_categoria(valorBuscado):
+def id_categoria(valorBuscado: str) -> any:
     id = None
     try:
         conexion = bd.Conexion()
@@ -182,7 +182,7 @@ def id_categoria(valorBuscado):
         return id
 
 
-def registrar_producto(datos):
+def registrar_producto(datos: dict) -> bool:
     estado = False
     try:
         conexion = bd.Conexion()
@@ -199,7 +199,7 @@ def registrar_producto(datos):
         return estado
 
 
-def todos_los_productos():
+def todos_los_productos() -> list:
     resultados = []
     try:
         conexion = bd.Conexion()
@@ -217,7 +217,7 @@ def todos_los_productos():
         return resultados
 
 
-def nombre_categoria(id):
+def nombre_categoria(id: str) -> any:
     nombre = None
     try:
         conexion = bd.Conexion()
@@ -231,7 +231,7 @@ def nombre_categoria(id):
         return nombre
 
 
-def actualizar_producto(datos):
+def actualizar_producto(datos: dict) -> bool:
     estado = False
     try:
         conexion = bd.Conexion()
@@ -254,7 +254,7 @@ def actualizar_producto(datos):
         return estado
 
 
-def borrar_producto(datos):
+def borrar_producto(datos: dict) -> bool:
     estado = False
     try:
         conexion = bd.Conexion()
@@ -268,7 +268,7 @@ def borrar_producto(datos):
         return estado
 
 
-def registrar_categoria(nombre):
+def registrar_categoria(nombre: str) -> bool:
     estado = False
     try:
         conexion = bd.Conexion()
@@ -282,7 +282,7 @@ def registrar_categoria(nombre):
         return estado
 
 
-def actualizar_categoria(nombre, nombre_nuevo):
+def actualizar_categoria(nombre: str, nombre_nuevo: str) -> bool:
     estado = False
     try:
         conexion = bd.Conexion()
@@ -296,7 +296,7 @@ def actualizar_categoria(nombre, nombre_nuevo):
         return estado
 
 
-def compras_cliente(cliente):
+def compras_cliente(cliente: dict) -> dict:
     matriz = {'cols':[], 'rows':[]}
     try:
         conexion = bd.Conexion()
@@ -315,7 +315,7 @@ def compras_cliente(cliente):
         return matriz
 
 
-def todas_las_ventas_de(cliente):
+def todas_las_ventas_de() -> dict:
     matriz = {'cols':[], 'rows':[]}
     try:
         conexion = bd.Conexion()

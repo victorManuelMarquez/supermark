@@ -1,15 +1,15 @@
-from tkinter import Menu, Label, Entry, Checkbutton, LabelFrame, Frame, Button
+from tkinter import Menu, Label, Entry, LabelFrame, Frame, Button
 import evento as evt
 from tabla import Tabla
 
 
-def menuArchivo(app, barra):
+def menuArchivo(app, barra: Menu):
     menuFile = Menu(barra)
     menuFile.add_command(label="Salir", command=lambda: evt.salir(app.root))
     barra.add_cascade(label="Archivo", menu=menuFile)
 
 
-def menuCliente(app, barra):
+def menuCliente(app, barra: Menu):
     menuClient = Menu(barra)
     menuClient.add_command(label="Nuevo", command=lambda : evt.nuevoCliente(app))
     menuClient.add_command(label="Editar", command=lambda : evt.editarCliente(app))
@@ -17,7 +17,7 @@ def menuCliente(app, barra):
     barra.add_cascade(label="Clientes", menu=menuClient)
 
 
-def menuProducto(app, barra):
+def menuProducto(app, barra: Menu):
     menuProduct = Menu(barra)
     menuProduct.add_command(label="Nuevo", command=lambda : evt.nuevoProducto(app, tabla_productos))
     menuProduct.add_command(label="Editar", command=lambda : evt.editarProducto(app, tabla_productos))
@@ -25,14 +25,14 @@ def menuProducto(app, barra):
     barra.add_cascade(label="Productos", menu=menuProduct)
 
 
-def menuCategoria(app, barra):
+def menuCategoria(app, barra: Menu):
     menuCategory = Menu(barra)
     menuCategory.add_command(label="Nueva", command=lambda : evt.nuevaCategoria(app))
     menuCategory.add_command(label="Editar", command=lambda : evt.editarCategoria(app, tabla_productos))
     barra.add_cascade(label="Categorías", menu=menuCategory)
 
 
-def menuActividad(app, barra):
+def menuActividad(app, barra: Menu):
     menuShop = Menu(barra)
     menuShop.add_command(label="Historial de compras", command=lambda : evt.verCompras(app))
     barra.add_cascade(label="Actividad", menu=menuShop)
@@ -113,7 +113,7 @@ def moduloProducto(app):
     tabla_productos.cuerpo.bind('<Double-Button>', lambda mbtn : evt.agregarAlCarrito(tabla_productos, tabla_carrito, total, filtrar))
 
 
-def moduloCarrito(app):
+def moduloCarrito():
     master = Frame()
     lf = LabelFrame(master, text="Carrito:")
 
