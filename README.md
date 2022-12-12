@@ -24,20 +24,47 @@ Sistema de Gestión de Base de Datos (DBMS) escogido para trabajar: [SQLite3](ht
 
 Diagrama realizado con [DBeaver](https://dbeaver.io/).
 
+#### Detalles:
+
+- Las tablas que aparentar estar "sueltas" son vistas; Para este sistema se utilizan como soporte para operaciones complejas.
+
 # Interfaz gráfica de usuario:
 
 ### Ventana Principal:
 
-![Ventana Principal-v2](docs/main-gui-supermark-02.png)
+![Ventana Principal](docs/supermark-main-gui-alpha-version.png)
+
+#### Detalles:
+
+Resolución por defecto 990x600 (debido a problemas visuales con la tabla)
 
 ### Barra de Menús:
 
-![¡Nueva Apariencia!](docs/supermark-menubar-demo-screen-capture.gif "Demostración de las opciones disponibles por ahora.")
+![¡Nuevas opciones!](docs/supermark-menubar.png)
 
-## Notas:
+> En futuras actualizaciones se planea agregar, al menú de 'Archivo', las opciones de gestión de la base de datos (crear, migrar y/o hacer un backup).
 
-- Las tablas sin relaciones, son tablas temporales (Vistas) o que solo existen en una consulta.
+## Base de datos:
+
 - [Script SQL (SQLite3)](src/supermark.sql) y [base de datos SQLite3](src/backup/supermark.db).
+
+## Problemas:
+
+- El "login" está incompleto (no puede cerrar sesión sin salir del programa). Además una nueva "sesión" redefine a la anterior.
+
+- El "cliente" tiene dinero infinito, o sea falta algo que simule una compra/venta "real".
+
+- No existe validación de las entradas en todos los campos.
+
+- Se hace uso de un slider para navegar entre registros (lo que será un problema con una base de datos más poblada).
+
+- No se puede usar una consulta almacenada para reforzar la integridad de los datos.
+
+- No hay una validación adicional del lado del servidor (triggers diseñados para parar las consultas en caso de ser necesario).
+
+## Bugs:
+
+- Un diálogo estándar o messageBox aparecerá por detrás de un diálogo modal.
 
 ## Integrantes:
 
