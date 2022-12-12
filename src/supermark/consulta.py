@@ -1,4 +1,4 @@
-import conexion1 as bd
+import conexion as bd
 import sqlite3 as sql
 from tkinter import messagebox as mb
 

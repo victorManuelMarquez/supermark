@@ -55,7 +55,7 @@ def realizarCompra(app, carrito, total, tabla):
         mb.showerror(title="Operación inválida", message="No te has registrado.")
 
 
-def vaciarCarrito(carrito, total):
+def vaciarCarrito(carrito, total, filtro):
     if len(carrito.filas):
         if mb.askokcancel(title="Atención", message="¿Desea vaciar el carrito de compras?"):
             carrito.vaciar()
@@ -63,6 +63,7 @@ def vaciarCarrito(carrito, total):
             total.delete(0, 'end')
             total.insert(0, '0.00')
             total.config(state='readonly')
+            filtro.focus_set()
     else:
         mb.showerror(title="Operación inválida", message="Carrito vacío.")
 
