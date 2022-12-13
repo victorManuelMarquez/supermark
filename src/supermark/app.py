@@ -3,7 +3,6 @@ import componente as cmp
 
 
 class App():
-
     def __init__(self, titulo="Super Mark"):
         self.__root = Tk()
         self._defaultFont = font.nametofont('TkDefaultFont')
