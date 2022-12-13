@@ -544,16 +544,16 @@ class Compras(Dialogo):
 
 
 class Ventas(Dialogo):
-    def __init__(self, root, titulo="Ventas", ancho=642, alto=372):
+    def __init__(self, root, titulo="Ventas", ancho=990, alto=370):
         super().__init__(root, titulo, ancho, alto)
 
         frame = Frame(self)
 
-        self.__tabla_ventas = Tabla(self)
+        self.__tabla_ventas = Tabla(frame)
         self.__tabla_ventas.cuerpo.config(height=15)
         self.__tabla_ventas.cuerpo.pack(side='left', fill='both', expand=True)
 
-        frame.pack(fill='both', expand=True, padx=6, pady=6)
+        frame.pack(fill='both', padx=6, pady=6)
 
         Button(self, text="Cerrar", command=lambda : evt.salir(self)).pack(padx=6, pady=6)
 
