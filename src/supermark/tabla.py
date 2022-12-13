@@ -39,7 +39,6 @@ class Tabla():
 
     def listaDiccionario(self) -> list:
         datos = []
-        print(self.columnas, self.filas)
         for fila in self.filas:
             datos.append(dict(zip(self.columnas, fila)))
         return datos

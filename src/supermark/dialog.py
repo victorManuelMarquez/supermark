@@ -274,9 +274,7 @@ class NuevoProducto(Dialogo):
         }
         id = consulta.id_categoria(self.__categorias.get())
         if id:
-            print("ID CAT ->",id)
             datos['id_categoria'] = id
-            print(datos)
             if consulta.registrar_producto(datos):
                 evt.salir(self)
                 evt.cargarProductos(self.__tabla, '')

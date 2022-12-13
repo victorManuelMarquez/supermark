@@ -53,7 +53,6 @@ class Conexion():
         """
 
         self.__cur.execute(consulta)
-        print("OK! ")
         if 'INSERT' in consulta or 'UPDATE' in consulta or 'DELETE' in consulta:
             self.__con.commit()
         return self.__cur.rowcount

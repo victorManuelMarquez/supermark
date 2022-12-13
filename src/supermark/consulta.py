@@ -59,10 +59,8 @@ def finalizar_compra(app: any, articulos: list) -> bool:
             ''')
             for resultado in conexion.resulset:
                 id = resultado[0]
-                print(id)
             else:
                 estado = id != None
-                print(estado)
         if estado:
             for articulo in articulos:
                 conexion.ejecutar(f'''
