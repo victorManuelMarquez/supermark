@@ -1,3 +1,4 @@
 ### omitir ###
 .vscode/
 __pycache__/
+*.db
